@@ -650,7 +650,7 @@ export default function CompareExams() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

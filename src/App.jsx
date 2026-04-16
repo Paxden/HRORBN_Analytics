@@ -15,14 +15,18 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) return <p className="text-center mt-5">Loading...</p>;
-  if (!user) return <Navigate to="/" />;
+
+  if (!user) return <Navigate to="/login" />;
 
   return children;
 }
 
 // 🚫 Prevent logged-in users from seeing login
 function PublicRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
+
   return user ? <Navigate to="/dashboard" /> : children;
 }
 
@@ -33,7 +37,7 @@ export default function App() {
         <Routes>
           {/* LOGIN */}
           <Route
-            path="/"
+            path="/login"
             element={
               <PublicRoute>
                 <Login />
@@ -41,7 +45,7 @@ export default function App() {
             }
           />
 
-          {/* DASHBOARD LAYOUT */}
+          {/* DASHBOARD */}
           <Route
             path="/dashboard"
             element={
@@ -57,8 +61,8 @@ export default function App() {
             <Route path="upload" element={<Upload />} />
           </Route>
 
-          {/* fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* DEFAULT */}
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

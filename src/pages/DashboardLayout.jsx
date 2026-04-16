@@ -377,7 +377,7 @@ export default function DashboardLayout() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         .dashboard-layout {
           overflow: hidden;
         }

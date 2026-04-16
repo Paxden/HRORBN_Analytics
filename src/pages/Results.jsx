@@ -612,7 +612,7 @@ export default function Results() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

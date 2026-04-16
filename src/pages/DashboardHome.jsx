@@ -404,7 +404,7 @@ export default function DashboardHome() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -451,4 +451,3 @@ export default function DashboardHome() {
     </div>
   );
 }
-  

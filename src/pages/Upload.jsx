@@ -401,7 +401,7 @@ C003,Michael Lee,67,GHI College,Rivers,Centre A`}
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

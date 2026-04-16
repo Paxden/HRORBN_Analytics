@@ -25,6 +25,7 @@ export default function Login() {
   });
 
   const [error, setError] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,22 +36,17 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
 
     try {
       const res = await login(form);
+
       console.log("Login response:", res);
-      console.log("User role:", res.user?.role);
+      
+
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
-      setError(
-        err.response?.data?.message ||
-          "Login failed. Please check your credentials.",
-      );
-    } finally {
-      setLoading(false);
+      setError(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -211,8 +207,6 @@ export default function Login() {
                   </button>
                 </form>
 
-              
-
                 {/* Footer */}
                 <div className="text-center mt-4">
                   <small className="text-muted">
@@ -226,7 +220,7 @@ export default function Login() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
+      <style>{`
         @keyframes slideUp {
           from {
             opacity: 0;
