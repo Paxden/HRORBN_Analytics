@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { createContext, useContext, useState } from "react";
 import api from "../api/Auth";
 
 const AuthContext = createContext();
@@ -9,21 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // ✅ Load user on refresh
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const res = await api.get("/auth/profile");
-        setUser(res.data);
-      } catch (err) {
-        console.log("No active session", err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    loadUser();
-  }, []);
 
   // ✅ LOGIN
   const login = async (data) => {
