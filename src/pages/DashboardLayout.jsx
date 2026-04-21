@@ -21,8 +21,11 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { MdAnalytics, MdCompare } from "react-icons/md";
+import Logo from "../assets/nmcn.jpeg"
+import { Image } from "react-bootstrap";
 
 export default function DashboardLayout() {
+  
   const { user, logout, selectedExam, setSelectedExam } = useAuth();
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
@@ -157,15 +160,15 @@ export default function DashboardLayout() {
             }`}
           >
             {(!sidebarCollapsed || isMobile) && (
-              <div className="d-flex align-items-center gap-2">
+              <div className="d-flex gap-2 align-items-center gx-2">
                 <div
                   className="bg-primary rounded-3 p-2 d-flex align-items-center justify-content-center"
                   style={{ width: "40px", height: "40px" }}
                 >
-                  <FaUniversity className="text-white" size={20} />
+                  <Image src={Logo} width="50px" alt="NMCN SaaS" />
                 </div>
-                <div>
-                  <h6 className="fw-bold mb-0 text-white">NMCN SaaS</h6>
+                <div className="ms-3">
+                  <h6 className="fw-bold mb-0 text-white">NMCN </h6>
                   <small className="text-white-50">Exam Platform</small>
                 </div>
               </div>

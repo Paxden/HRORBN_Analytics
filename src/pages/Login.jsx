@@ -16,7 +16,7 @@ import {
 import { MdAnalytics } from "react-icons/md";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, loading: authLoading } = useAuth(); // Get loading from auth context
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -25,8 +25,7 @@ export default function Login() {
   });
 
   const [error, setError] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(false);
+  const [localLoading, setLocalLoading] = useState(false); // Local loading state
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -36,17 +35,27 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLocalLoading(true);
+    setError("");
 
     try {
-      const res = await login(form);
+      // ✅ Fix: Pass as an object with both email AND password
+      const loginData = {
+        email: form.email,
+        password: form.password,
+      };
+
+      console.log("Sending login data:", loginData); // Should show {email: "admin@nmcn.com", password: "..."}
+
+      const res = await login(loginData); // Pass the object
 
       console.log("Login response:", res);
-      
-
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
       setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLocalLoading(false);
     }
   };
 
@@ -177,7 +186,7 @@ export default function Login() {
                   <button
                     type="submit"
                     className="btn btn-primary w-100 py-2 mb-3"
-                    disabled={loading}
+                    disabled={localLoading || authLoading} // Disable if either is loading
                     style={{
                       borderRadius: "0.75rem",
                       background:
@@ -193,7 +202,7 @@ export default function Login() {
                       (e.currentTarget.style.transform = "translateY(0)")
                     }
                   >
-                    {loading ? (
+                    {localLoading || authLoading ? (
                       <>
                         <FaSpinner className="fa-spin me-2" size={16} />
                         Signing in...

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api/Auth";
 
 const AuthContext = createContext();
@@ -9,21 +9,51 @@ export const AuthProvider = ({ children }) => {
   const [selectedExam, setSelectedExam] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Load user on refresh
+  // ✅ Load user on refresh - ADD THIS
+  useEffect(() => {
+    const loadUser = async () => {
+      const token = localStorage.getItem("token");
 
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Optional: Verify token with backend
+        // const response = await api.get("/auth/me");
+        // setUser(response.data.user);
+
+        // Or just set loading to false if you don't need verification
+        setLoading(false);
+      } catch (error) {
+        // Token is invalid
+        localStorage.removeItem("token");
+        setLoading(false);
+      }
+    };
+
+    loadUser();
+  }, []);
 
   // ✅ LOGIN
-  const login = async (data) => {
+  // In AuthContext.jsx - login function
+const login = async (data) => {
+  console.log("Login data being sent:", data); // Debug log
+  
+  try {
     const res = await api.post("/auth/login", data);
-
+    console.log("Login response:", res.data);
+    
     const { token, user } = res.data;
-
     localStorage.setItem("token", token);
-
     setUser(user);
-
-    return res.data; // ✅ VERY IMPORTANT
-  };
+    return res.data;
+  } catch (error) {
+    console.error("Login error details:", error.response?.data); // This is important!
+    throw error;
+  }
+};
 
   // ✅ LOGOUT
   const logout = () => {
