@@ -158,6 +158,8 @@ export default function CompareExams() {
           >
             Compare Exams
           </h1>
+          <h4>Nursing and Midwifery Council of Nigeria </h4>
+
           <p className="text-muted mt-2">
             Analyze and compare exam performance metrics
           </p>

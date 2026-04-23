@@ -23,7 +23,6 @@ import {
   FaTrophy,
   FaMedal,
   FaSchool,
-  FaMapMarkerAlt,
   FaUserGraduate,
   FaChartBar,
   FaDownload,
@@ -31,6 +30,9 @@ import {
   FaCalendarAlt,
   FaArrowUp,
   FaArrowDown,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaPercentage,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 
@@ -54,19 +56,24 @@ export default function Analytics() {
         },
       });
 
+      // Calculate additional metrics from response data
+      const data = res.data;
+      const totalCandidates = data.totalCandidates || 0;
+      const passCount = data.passCount || 0;
+      const passRate = totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+
       const analyticsData = {
-        totalCandidates: 0,
-        avgScore: 0,
-        maxScore: 0,
-        minScore: 0,
-        passCount: 0,
-        failCount: 0,
-        passRate: 0,
-        scoreDistribution: [],
-        topStates: [],
-        topSchools: [],
-        topCandidates: [],
-        ...res.data,
+        totalCandidates: totalCandidates,
+        avgScore: data.avgScore || 0,
+        maxScore: data.maxScore || 0,
+        minScore: data.minScore || 0,
+        passCount: passCount,
+        failCount: data.failCount || 0,
+        passRate: passRate,
+        scoreDistribution: data.scoreDistribution || [],
+        topSchools: data.topSchools || [],
+        topCandidates: data.topCandidates || [],
+        ...data,
       };
 
       setStats(analyticsData);
@@ -81,6 +88,20 @@ export default function Analytics() {
   useEffect(() => {
     fetchAnalytics();
   }, [selectedExam]);
+
+  const getPassRateColor = (passCount, totalCandidates) => {
+    const rate = totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+    if (rate >= 70) return "success";
+    if (rate >= 50) return "warning";
+    return "danger";
+  };
+
+  const getPassRateIcon = (passCount, totalCandidates) => {
+    const rate = totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+    if (rate >= 70) return <MdTrendingUp className="text-success" />;
+    if (rate >= 50) return <FaChartLine className="text-warning" />;
+    return <MdTrendingDown className="text-danger" />;
+  };
 
   const getScoreColor = (score) => {
     if (score >= 70) return "success";
@@ -160,9 +181,17 @@ export default function Analytics() {
     return null;
   }
 
+  // Safely get numeric values
+  const totalCandidates = formatValue(stats.totalCandidates);
+  const avgScore = formatValue(stats.avgScore);
+  const maxScore = formatValue(stats.maxScore);
+  const passRate = formatValue(stats.passRate);
+  const passCount = formatValue(stats.passCount);
+  const failCount = formatValue(stats.failCount);
+
   const passFailData = [
-    { name: "Pass", value: formatValue(stats.passCount) },
-    { name: "Fail", value: formatValue(stats.failCount) },
+    { name: "Pass", value: passCount },
+    { name: "Fail", value: failCount },
   ];
 
   const COLORS = ["#28a745", "#dc3545"];
@@ -171,19 +200,50 @@ export default function Analytics() {
     ? stats.scoreDistribution
     : [];
 
-  const topStates = Array.isArray(stats.topStates) ? stats.topStates : [];
   const topSchools = Array.isArray(stats.topSchools) ? stats.topSchools : [];
   const topCandidates = Array.isArray(stats.topCandidates)
     ? stats.topCandidates
     : [];
 
-  // Safely get numeric values
-  const totalCandidates = formatValue(stats.totalCandidates);
-  const avgScore = formatValue(stats.avgScore);
-  const maxScore = formatValue(stats.maxScore);
-  const passRate = formatValue(stats.passRate);
-  const passCount = formatValue(stats.passCount);
-  const failCount = formatValue(stats.failCount);
+  // Stat Cards Configuration
+  const statCards = [
+    {
+      title: "Total Candidates",
+      value: totalCandidates.toLocaleString(),
+      icon: <FaUsers />,
+      color: "primary",
+      bgColor: "bg-primary bg-opacity-10",
+      textColor: "text-primary",
+    },
+    {
+      title: "Average Score",
+      value: avgScore.toFixed(2),
+      icon: <MdAnalytics />,
+      color: "info",
+      bgColor: "bg-info bg-opacity-10",
+      textColor: "text-info",
+      suffix: "%",
+    },
+    {
+      title: "Highest Score",
+      value: maxScore,
+      icon: <FaTrophy />,
+      color: "warning",
+      bgColor: "bg-warning bg-opacity-10",
+      textColor: "text-warning",
+      suffix: "%",
+    },
+    {
+      title: "Pass Rate",
+      value: `${passRate.toFixed(1)}%`,
+      icon: <FaPercentage />,
+      color: getPassRateColor(passCount, totalCandidates),
+      bgColor: `bg-${getPassRateColor(passCount, totalCandidates)} bg-opacity-10`,
+      textColor: `text-${getPassRateColor(passCount, totalCandidates)}`,
+    },
+  ];
+
+
 
   return (
     <div className="animate-fade-in">
@@ -200,10 +260,11 @@ export default function Analytics() {
           >
             Analytics Dashboard
           </h1>
-          <p className="text-muted mt-2">
-            Performance analytics for:{" "}
-            <strong className="text-primary">{selectedExam.title}</strong>
-          </p>
+         <h4>Nursing and Midwifery Council of Nigeria </h4>
+            <p className="text-muted mt-2">
+              Performance Analytics for:{" "}
+              <strong className="text-primary">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
+            </p>
         </div>
 
         <div className="d-flex gap-2">
@@ -222,110 +283,54 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* Summary Stats Cards */}
+      {/* Main Stats Row */}
       <div className="row g-3 mb-4">
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100 animate-slide-up"
-            style={{ borderRadius: "1rem", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "translateY(-5px)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="bg-primary bg-opacity-10 rounded-3 p-3">
-                  <FaUsers className="text-primary" size={24} />
+        {statCards.map((stat, index) => (
+          <div key={index} className="col-md-3 col-sm-6">
+            <div
+              className="card border-0 shadow-sm h-100 animate-slide-up"
+              style={{
+                borderRadius: "1rem",
+                transition: "transform 0.3s ease",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-5px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              <div className="card-body p-3">
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div className={`${stat.bgColor} rounded-3 p-3`}>
+                    <div
+                      className={stat.textColor}
+                      style={{ fontSize: "1.5rem" }}
+                    >
+                      {stat.icon}
+                    </div>
+                  </div>
+                  <div className="text-end">
+                    <h3 className="fw-bold mb-0">
+                      {stat.value}
+                      {stat.suffix && (
+                        <small className="fs-6 text-muted">{stat.suffix}</small>
+                      )}
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="fw-bold mb-0">
-                  {totalCandidates.toLocaleString()}
-                </h3>
+                <h6 className="fw-semibold mb-0">{stat.title}</h6>
               </div>
-              <h6 className="fw-semibold mb-0">Total Candidates</h6>
-              <small className="text-muted">Registered students</small>
             </div>
           </div>
-        </div>
-
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100 animate-slide-up"
-            style={{ borderRadius: "1rem", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "translateY(-5px)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="bg-info bg-opacity-10 rounded-3 p-3">
-                  <MdAnalytics className="text-info" size={24} />
-                </div>
-                <h3 className="fw-bold mb-0">{avgScore.toFixed(1)}%</h3>
-              </div>
-              <h6 className="fw-semibold mb-0">Average Score</h6>
-              <small className="text-muted">Overall performance</small>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100 animate-slide-up"
-            style={{ borderRadius: "1rem", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "translateY(-5px)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="bg-warning bg-opacity-10 rounded-3 p-3">
-                  <FaTrophy className="text-warning" size={24} />
-                </div>
-                <h3 className="fw-bold mb-0">{maxScore}%</h3>
-              </div>
-              <h6 className="fw-semibold mb-0">Highest Score</h6>
-              <small className="text-muted">Top performer</small>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100 animate-slide-up"
-            style={{ borderRadius: "1rem", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "translateY(-5px)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "translateY(0)")
-            }
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="bg-success bg-opacity-10 rounded-3 p-3">
-                  <MdTrendingUp className="text-success" size={24} />
-                </div>
-                <h3 className="fw-bold mb-0">{passRate.toFixed(1)}%</h3>
-              </div>
-              <h6 className="fw-semibold mb-0">Pass Rate</h6>
-              <small className="text-muted">Success percentage</small>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
+
 
       {/* Charts Row */}
       <div className="row g-4 mb-4">
-        {/* Pass/Fail Pie Chart - Enhanced */}
+        {/* Pass/Fail Pie Chart */}
         <div className="col-md-5">
           <div
             className="card border-0 shadow-sm"
@@ -356,13 +361,7 @@ export default function Analytics() {
                   <div className="text-end">
                     <div className="bg-success bg-opacity-10 rounded-3 px-3 py-1">
                       <small className="text-success fw-semibold">
-                        Pass Rate:{" "}
-                        {(
-                          (passFailData[0].value /
-                            (passFailData[0].value + passFailData[1].value)) *
-                          100
-                        ).toFixed(1)}
-                        %
+                        Pass Rate: {passRate.toFixed(1)}%
                       </small>
                     </div>
                   </div>
@@ -525,9 +524,7 @@ export default function Analytics() {
           </div>
         </div>
 
-        {/* Score Distribution Bar Chart */}
-        {/* Score Distribution Bar Chart - Enhanced */}
-
+        {/* Score Distribution Chart */}
         <div className="col-md-7">
           <div
             className="card border-0 shadow-sm"
@@ -563,7 +560,7 @@ export default function Analytics() {
                       <span className="fw-bold text-primary">
                         {scoreDistribution.reduce(
                           (sum, item) => sum + (item.count || 0),
-                          0,
+                          0
                         )}
                       </span>
                     </div>
@@ -571,11 +568,7 @@ export default function Analytics() {
                       <small className="text-muted d-block">Score Range</small>
                       <span className="fw-bold text-info">
                         {scoreDistribution[0]?.range?.split("-")[0]} -{" "}
-                        {
-                          scoreDistribution[
-                            scoreDistribution.length - 1
-                          ]?.range?.split("-")[1]
-                        }
+                        {scoreDistribution[scoreDistribution.length - 1]?.range?.split("-")[1]}
                       </span>
                     </div>
                   </div>
@@ -616,16 +609,6 @@ export default function Analytics() {
                         >
                           <stop offset="0%" stopColor="#667eea" />
                           <stop offset="100%" stopColor="#764ba2" />
-                        </linearGradient>
-                        <linearGradient
-                          id="barHoverGradient"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop offset="0%" stopColor="#5a67d8" />
-                          <stop offset="100%" stopColor="#6b46a0" />
                         </linearGradient>
                         <filter
                           id="shadow"
@@ -693,9 +676,6 @@ export default function Analytics() {
                         maxBarSize={60}
                         animationDuration={1500}
                         animationEasing="ease-in-out"
-                        onMouseEnter={(data, index) => {
-                          // Hover effect handled by CSS
-                        }}
                       />
                     </BarChart>
                   </ResponsiveContainer>
@@ -712,7 +692,7 @@ export default function Analytics() {
                           {scoreDistribution.reduce(
                             (max, item) =>
                               (item.count || 0) > (max.count || 0) ? item : max,
-                            scoreDistribution[0],
+                            scoreDistribution[0]
                           )?.range || "N/A"}
                         </p>
                       </div>
@@ -725,7 +705,7 @@ export default function Analytics() {
                         </div>
                         <p className="fw-bold mb-0 text-info">
                           {Math.max(
-                            ...scoreDistribution.map((item) => item.count || 0),
+                            ...scoreDistribution.map((item) => item.count || 0)
                           )}{" "}
                           students
                         </p>
@@ -750,64 +730,10 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* Performance Tables */}
+      {/* Performance Tables - Top Schools and Top Candidates only */}
       <div className="row g-4">
-        {/* Top States */}
-        <div className="col-md-4">
-          <div
-            className="card border-0 shadow-sm"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-header bg-white border-0 pt-4 px-4">
-              <div className="d-flex align-items-center gap-2">
-                <FaMapMarkerAlt className="text-success" size={18} />
-                <h5 className="fw-bold mb-0">Top Performing States</h5>
-              </div>
-            </div>
-            <div className="card-body p-4">
-              {topStates.length === 0 ? (
-                <div className="text-center py-4 text-muted">
-                  <FaMapMarkerAlt size={32} className="mb-2 opacity-25" />
-                  <p className="mb-0 small">No data available</p>
-                </div>
-              ) : (
-                <div className="vstack gap-2">
-                  {topStates.map((s, i) => {
-                    const rateValue = formatValue(s.passRate || s.rate || 0);
-                    return (
-                      <div
-                        key={i}
-                        className="d-flex justify-content-between align-items-center p-2 bg-light rounded-3"
-                      >
-                        <div>
-                          <span className="fw-bold me-2">{i + 1}.</span>
-                          <span>{s.state || s.name || "Unknown"}</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                          <div
-                            className="progress"
-                            style={{ width: "100px", height: "6px" }}
-                          >
-                            <div
-                              className="progress-bar bg-success"
-                              style={{ width: `${rateValue}%` }}
-                            />
-                          </div>
-                          <span className="fw-semibold text-success">
-                            {rateValue.toFixed(1)}%
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* Top Schools */}
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div
             className="card border-0 shadow-sm"
             style={{ borderRadius: "1rem" }}
@@ -815,7 +741,7 @@ export default function Analytics() {
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <FaSchool className="text-primary" size={18} />
-                <h5 className="fw-bold mb-0">Top Schools</h5>
+                <h5 className="fw-bold mb-0">Top Performing Schools</h5>
               </div>
             </div>
             <div className="card-body p-4">
@@ -861,7 +787,7 @@ export default function Analytics() {
         </div>
 
         {/* Top Candidates */}
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div
             className="card border-0 shadow-sm"
             style={{ borderRadius: "1rem" }}
@@ -869,7 +795,7 @@ export default function Analytics() {
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <FaUserGraduate className="text-warning" size={18} />
-                <h5 className="fw-bold mb-0">Top Candidates</h5>
+                <h5 className="fw-bold mb-0">Top Performing Candidates</h5>
               </div>
             </div>
             <div className="card-body p-4">
@@ -1015,82 +941,16 @@ export default function Analytics() {
           transform: translateY(-2px);
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         }
-        /* Add to your global CSS or component style */
+
         .bg-gradient-primary {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        /* Custom tooltip styling */
-        .custom-tooltip {
-          border-radius: 0.75rem;
-          background: white;
-          border: none;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          padding: 12px 16px;
-        }
-
-        .custom-tooltip .label {
-          font-weight: 600;
-          margin-bottom: 4px;
-          color: #2d3748;
-        }
-
-        .custom-tooltip .value {
-          color: #667eea;
-          font-weight: 700;
-          font-size: 18px;
-        }
-
-        /* Bar hover animation */
         .recharts-bar-rectangle:hover {
           filter: brightness(0.95);
           transition: filter 0.2s ease;
         }
 
-        /* Add to your global CSS or component style */
-        @keyframes pulse {
-          0%,
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.05);
-            opacity: 0.9;
-          }
-        }
-
-        @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .pie-chart-enter {
-          animation: slideInLeft 0.5s ease-out;
-        }
-
-        .stats-enter {
-          animation: slideInRight 0.5s ease-out;
-        }
-
-        /* Hover effect for pie slices */
         .recharts-pie-sector:hover {
           filter: brightness(0.95);
           transition: filter 0.2s ease;

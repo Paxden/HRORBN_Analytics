@@ -21,11 +21,10 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { MdAnalytics, MdCompare } from "react-icons/md";
-import Logo from "../assets/nmcn.jpeg"
+import Logo from "../assets/nmcn.jpeg";
 import { Image } from "react-bootstrap";
 
 export default function DashboardLayout() {
-  
   const { user, logout, selectedExam, setSelectedExam } = useAuth();
   // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
@@ -85,14 +84,6 @@ export default function DashboardLayout() {
     setShowModal(false);
   };
 
-  const handleExamChange = (e) => {
-    const examId = e.target.value;
-    const exam = exams.find((ex) => ex._id === examId);
-    if (exam) {
-      setSelectedExam(exam);
-    }
-  };
-
   const toggleSidebar = () => {
     if (isMobile) {
       setMobileOpen(!mobileOpen);
@@ -119,6 +110,7 @@ export default function DashboardLayout() {
       <ExamModal
         show={showModal}
         onExamSelected={handleExamSelected}
+         onClose={() => setShowModal(false)}
         exams={exams}
       />
 
@@ -132,9 +124,9 @@ export default function DashboardLayout() {
           />
         )}
 
-        {/* Sidebar */}
+        {/* Sidebar - White Theme */}
         <div
-          className={`sidebar bg-dark text-white shadow-lg transition-sidebar ${
+          className={`sidebar bg-white shadow-lg transition-sidebar ${
             isMobile
               ? mobileOpen
                 ? "open"
@@ -168,8 +160,8 @@ export default function DashboardLayout() {
                   <Image src={Logo} width="50px" alt="NMCN SaaS" />
                 </div>
                 <div className="ms-3">
-                  <h6 className="fw-bold mb-0 text-white">NMCN </h6>
-                  <small className="text-white-50">Exam Platform</small>
+                  <h6 className="fw-bold mb-0 text-dark">NMCN</h6>
+                  <small className="text-muted">Exam Analysis</small>
                 </div>
               </div>
             )}
@@ -177,7 +169,7 @@ export default function DashboardLayout() {
             {!isMobile && (
               <button
                 onClick={toggleSidebar}
-                className="btn btn-link text-white p-0"
+                className="btn btn-link text-dark p-0"
                 style={{ textDecoration: "none" }}
               >
                 {sidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
@@ -187,7 +179,7 @@ export default function DashboardLayout() {
             {isMobile && mobileOpen && (
               <button
                 onClick={toggleSidebar}
-                className="btn btn-link text-white p-0"
+                className="btn btn-link text-dark p-0"
                 style={{ textDecoration: "none" }}
               >
                 <FaChevronLeft size={20} />
@@ -200,7 +192,7 @@ export default function DashboardLayout() {
             <div className="mb-4">
               {(!sidebarCollapsed || isMobile) && (
                 <small
-                  className="text-white-50 text-uppercase d-block mb-2"
+                  className="text-muted text-uppercase d-block mb-2"
                   style={{ fontSize: "0.65rem", letterSpacing: "0.5px" }}
                 >
                   Main Menu
@@ -215,7 +207,7 @@ export default function DashboardLayout() {
                     `d-flex align-items-center gap-3 px-3 py-2 rounded-3 mb-1 text-decoration-none transition-all ${
                       isActive
                         ? "bg-primary text-white shadow-sm"
-                        : "text-white-50 hover-bg-light"
+                        : "text-dark hover-bg-light"
                     }`
                   }
                   onClick={() => isMobile && setMobileOpen(false)}
@@ -234,7 +226,7 @@ export default function DashboardLayout() {
           <div className="p-3 border-top border-secondary">
             <button
               onClick={logout}
-              className={`btn btn-outline-light w-100 d-flex align-items-center gap-2 rounded-3 ${
+              className={`btn btn-outline-danger w-100 d-flex align-items-center gap-2 rounded-3 ${
                 sidebarCollapsed && !isMobile ? "justify-content-center" : ""
               }`}
               style={{ transition: "all 0.3s ease" }}
@@ -267,23 +259,8 @@ export default function DashboardLayout() {
             <div className="d-flex align-items-center gap-3">
               {/* Exam Selector */}
               <div className="d-flex align-items-center gap-2">
-                <select
-                  className="form-select bg-light border-0"
-                  value={selectedExam?._id || ""}
-                  onChange={handleExamChange}
-                  style={{ minWidth: "200px", borderRadius: "0.5rem" }}
-                  disabled={loading}
-                >
-                  <option value="">Select Exam</option>
-                  {exams.map((exam) => (
-                    <option key={exam._id} value={exam._id}>
-                      {exam.title}
-                    </option>
-                  ))}
-                </select>
-
                 <button
-                  className="d-flex  align-items-center btn btn-outline-primary btn-sm"
+                  className="d-flex align-items-center btn btn-outline-primary btn-sm"
                   onClick={() => setShowModal(true)}
                   style={{ borderRadius: "0.5rem" }}
                 >
@@ -388,7 +365,7 @@ export default function DashboardLayout() {
         .sidebar {
           display: flex;
           flex-direction: column;
-          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
         }
 
         .sidebar.closed {
@@ -406,7 +383,12 @@ export default function DashboardLayout() {
         }
 
         .hover-bg-light:hover {
-          background-color: rgba(255, 255, 255, 0.1);
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .hover-bg-light.active {
+          background-color: #0d6efd;
+          color: white;
         }
 
         .transition-all {
@@ -419,13 +401,13 @@ export default function DashboardLayout() {
             left 0.3s ease-in-out;
         }
 
-        /* Scrollbar styling */
+        /* Scrollbar styling - Light theme */
         ::-webkit-scrollbar {
           width: 5px;
         }
 
         ::-webkit-scrollbar-track {
-          background: #2d2d2d;
+          background: #f1f1f1;
         }
 
         ::-webkit-scrollbar-thumb {

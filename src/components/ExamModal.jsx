@@ -200,7 +200,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
         day: "numeric",
       });
     } catch (e) {
-        console.error("Date formatting error:", e);
+      console.error("Date formatting error:", e);
       return "Invalid date";
     }
   };
@@ -234,6 +234,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
           <button
             className="btn btn-link text-white p-0"
             onClick={onClose}
+            onClick={() => onClose && onClose()}
             style={{ textDecoration: "none" }}
           >
             <FaTimes size={20} />

@@ -3,11 +3,11 @@ import { useState } from "react";
 import api from "../api/Auth";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { 
-  FaUpload, 
-  FaFileCsv, 
-  FaSpinner, 
-  FaCheckCircle, 
+import {
+  FaUpload,
+  FaFileCsv,
+  FaSpinner,
+  FaCheckCircle,
   FaTimesCircle,
   FaInfoCircle,
   FaArrowLeft,
@@ -15,7 +15,7 @@ import {
   FaTrash,
   FaFileAlt,
   FaDatabase,
-  FaChartLine
+  FaChartLine,
 } from "react-icons/fa";
 import { MdAnalytics, MdVerified } from "react-icons/md";
 
@@ -55,7 +55,7 @@ export default function UploadExam() {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile && droppedFile.type === "text/csv") {
       setFile(droppedFile);
@@ -98,7 +98,9 @@ export default function UploadExam() {
       }, 1500);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || "Upload failed. Please try again.");
+      setError(
+        err.response?.data?.message || "Upload failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -113,11 +115,11 @@ export default function UploadExam() {
 
   const requiredColumns = [
     "candidate_id",
-    "candidate_name", 
+    "candidate_name",
     "score",
     "school",
     "state",
-    "centre"
+    "centre",
   ];
 
   return (
@@ -125,20 +127,18 @@ export default function UploadExam() {
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="btn btn-link text-decoration-none text-muted p-0 mb-2"
-            style={{ fontSize: "0.9rem" }}
+          <h1
+            className="display-6 fw-bold mb-0"
+            style={{
+              background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
           >
-            <FaArrowLeft className="me-1" size={14} /> Back to Dashboard
-          </button>
-          <h1 className="display-6 fw-bold mb-0" style={{
-            background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent"
-          }}>
             Upload New Exam
           </h1>
+          <h4>Nursing and Midwifery Council of Nigeria </h4>
+
           <p className="text-muted mt-2">
             Upload exam data in CSV format to start analyzing results
           </p>
@@ -148,29 +148,46 @@ export default function UploadExam() {
       <div className="row g-4">
         {/* Upload Form */}
         <div className="col-lg-7">
-          <div className="card border-0 shadow-sm" style={{ borderRadius: "1rem", overflow: "hidden" }}>
+          <div
+            className="card border-0 shadow-sm"
+            style={{ borderRadius: "1rem", overflow: "hidden" }}
+          >
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
-                <div className="bg-gradient-primary rounded-3 p-2" style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}>
+                <div
+                  className="bg-gradient-primary rounded-3 p-2"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  }}
+                >
                   <FaCloudUploadAlt className="text-white" size={18} />
                 </div>
                 <div>
                   <h5 className="fw-bold mb-0">Exam Details</h5>
-                  <small className="text-muted">Enter exam information and upload CSV file</small>
+                  <small className="text-muted">
+                    Enter exam information and upload CSV file
+                  </small>
                 </div>
               </div>
             </div>
-            
+
             <div className="card-body p-4">
               {error && (
-                <div className="alert alert-danger d-flex align-items-center mb-4" style={{ borderRadius: "0.75rem" }}>
+                <div
+                  className="alert alert-danger d-flex align-items-center mb-4"
+                  style={{ borderRadius: "0.75rem" }}
+                >
                   <FaTimesCircle className="me-2" size={18} />
                   <div>{error}</div>
                 </div>
               )}
-              
+
               {success && (
-                <div className="alert alert-success d-flex align-items-center mb-4" style={{ borderRadius: "0.75rem" }}>
+                <div
+                  className="alert alert-success d-flex align-items-center mb-4"
+                  style={{ borderRadius: "0.75rem" }}
+                >
                   <FaCheckCircle className="me-2" size={18} />
                   <div>{success}</div>
                 </div>
@@ -192,7 +209,9 @@ export default function UploadExam() {
                     disabled={loading}
                     style={{ borderRadius: "0.75rem" }}
                   />
-                  <small className="text-muted">Choose a descriptive title for this exam</small>
+                  <small className="text-muted">
+                    Choose a descriptive title for this exam
+                  </small>
                 </div>
 
                 {/* File Upload Area */}
@@ -201,21 +220,23 @@ export default function UploadExam() {
                     <FaFileCsv className="me-2" size={14} />
                     CSV File <span className="text-danger">*</span>
                   </label>
-                  
+
                   <div
-                    className={`file-upload-area ${dragActive ? 'drag-active' : ''}`}
+                    className={`file-upload-area ${dragActive ? "drag-active" : ""}`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                     style={{
-                      border: `2px dashed ${dragActive ? '#0d6efd' : '#dee2e6'}`,
+                      border: `2px dashed ${dragActive ? "#0d6efd" : "#dee2e6"}`,
                       borderRadius: "1rem",
-                      backgroundColor: dragActive ? 'rgba(13, 110, 253, 0.05)' : '#f8f9fa',
+                      backgroundColor: dragActive
+                        ? "rgba(13, 110, 253, 0.05)"
+                        : "#f8f9fa",
                       transition: "all 0.3s ease",
-                      cursor: "pointer"
+                      cursor: "pointer",
                     }}
-                    onClick={() => document.getElementById('fileInput').click()}
+                    onClick={() => document.getElementById("fileInput").click()}
                   >
                     <input
                       id="fileInput"
@@ -225,11 +246,13 @@ export default function UploadExam() {
                       disabled={loading}
                       className="d-none"
                     />
-                    
+
                     {file ? (
                       <div className="text-center p-4">
-                        <div className="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-                             style={{ width: "60px", height: "60px" }}>
+                        <div
+                          className="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                          style={{ width: "60px", height: "60px" }}
+                        >
                           <FaCheckCircle size={30} className="text-success" />
                         </div>
                         <h6 className="fw-bold mb-1">{file.name}</h6>
@@ -250,13 +273,21 @@ export default function UploadExam() {
                       </div>
                     ) : (
                       <div className="text-center p-5">
-                        <div className="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-                             style={{ width: "70px", height: "70px" }}>
+                        <div
+                          className="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                          style={{ width: "70px", height: "70px" }}
+                        >
                           <FaCloudUploadAlt size={35} className="text-muted" />
                         </div>
-                        <h6 className="fw-bold mb-2">Drop your CSV file here</h6>
-                        <p className="text-muted small mb-2">or click to browse</p>
-                        <small className="text-muted">Supported format: .csv</small>
+                        <h6 className="fw-bold mb-2">
+                          Drop your CSV file here
+                        </h6>
+                        <p className="text-muted small mb-2">
+                          or click to browse
+                        </p>
+                        <small className="text-muted">
+                          Supported format: .csv
+                        </small>
                       </div>
                     )}
                   </div>
@@ -268,11 +299,12 @@ export default function UploadExam() {
                     type="submit"
                     className="btn btn-primary flex-grow-1"
                     disabled={loading || !title || !file}
-                    style={{ 
-                      borderRadius: "0.75rem", 
+                    style={{
+                      borderRadius: "0.75rem",
                       padding: "0.75rem",
-                      background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
-                      border: "none"
+                      background:
+                        "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+                      border: "none",
                     }}
                   >
                     {loading ? (
@@ -287,7 +319,7 @@ export default function UploadExam() {
                       </>
                     )}
                   </button>
-                  
+
                   {(title || file) && (
                     <button
                       type="button"
@@ -308,7 +340,10 @@ export default function UploadExam() {
         {/* Information Panel */}
         <div className="col-lg-5">
           {/* Requirements Card */}
-          <div className="card border-0 shadow-sm mb-4" style={{ borderRadius: "1rem" }}>
+          <div
+            className="card border-0 shadow-sm mb-4"
+            style={{ borderRadius: "1rem" }}
+          >
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <FaInfoCircle className="text-info" size={18} />
@@ -321,7 +356,10 @@ export default function UploadExam() {
               </p>
               <div className="vstack gap-2">
                 {requiredColumns.map((col, idx) => (
-                  <div key={idx} className="d-flex align-items-center gap-2 p-2 bg-light rounded-3">
+                  <div
+                    key={idx}
+                    className="d-flex align-items-center gap-2 p-2 bg-light rounded-3"
+                  >
                     <code className="small flex-grow-1">{col}</code>
                     <span className="badge bg-primary bg-opacity-10 text-primary rounded-pill">
                       Required
@@ -333,7 +371,10 @@ export default function UploadExam() {
           </div>
 
           {/* Tips Card */}
-          <div className="card border-0 shadow-sm mb-4" style={{ borderRadius: "1rem" }}>
+          <div
+            className="card border-0 shadow-sm mb-4"
+            style={{ borderRadius: "1rem" }}
+          >
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <FaChartLine className="text-success" size={18} />
@@ -363,7 +404,10 @@ export default function UploadExam() {
           </div>
 
           {/* Example Card */}
-          <div className="card border-0 shadow-sm" style={{ borderRadius: "1rem" }}>
+          <div
+            className="card border-0 shadow-sm"
+            style={{ borderRadius: "1rem" }}
+          >
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <FaDatabase className="text-warning" size={18} />
@@ -371,15 +415,21 @@ export default function UploadExam() {
               </div>
             </div>
             <div className="card-body p-4">
-              <div className="bg-dark rounded-3 p-3" style={{ overflowX: "auto" }}>
-                <pre className="text-light mb-0" style={{ fontSize: "11px", fontFamily: "monospace" }}>
-{`candidate_id,candidate_name,score,school,state,centre
+              <div
+                className="bg-dark rounded-3 p-3"
+                style={{ overflowX: "auto" }}
+              >
+                <pre
+                  className="text-light mb-0"
+                  style={{ fontSize: "11px", fontFamily: "monospace" }}
+                >
+                  {`candidate_id,candidate_name,score,school,state,centre
 C001,John Doe,85,ABC High School,Lagos,Centre A
 C002,Jane Smith,92,DEF Academy,Abuja,Centre B
 C003,Michael Lee,67,GHI College,Rivers,Centre A`}
                 </pre>
               </div>
-              <button 
+              <button
                 className="btn btn-sm btn-outline-primary mt-3 w-100"
                 onClick={() => {
                   // Create and download example CSV

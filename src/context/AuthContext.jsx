@@ -20,15 +20,15 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        // Optional: Verify token with backend
-        // const response = await api.get("/auth/me");
-        // setUser(response.data.user);
+        // ✅ Verify token & get user
+        const res = await api.get("/auth/check-auth");
 
-        // Or just set loading to false if you don't need verification
-        setLoading(false);
+        setUser(res.data.user); // 🔥 THIS WAS MISSING
       } catch (error) {
-        // Token is invalid
+        console.error("Auth restore failed:", error);
         localStorage.removeItem("token");
+        setUser(null);
+      } finally {
         setLoading(false);
       }
     };
@@ -38,22 +38,22 @@ export const AuthProvider = ({ children }) => {
 
   // ✅ LOGIN
   // In AuthContext.jsx - login function
-const login = async (data) => {
-  console.log("Login data being sent:", data); // Debug log
-  
-  try {
-    const res = await api.post("/auth/login", data);
-    console.log("Login response:", res.data);
-    
-    const { token, user } = res.data;
-    localStorage.setItem("token", token);
-    setUser(user);
-    return res.data;
-  } catch (error) {
-    console.error("Login error details:", error.response?.data); // This is important!
-    throw error;
-  }
-};
+  const login = async (data) => {
+    console.log("Login data being sent:", data); // Debug log
+
+    try {
+      const res = await api.post("/auth/login", data);
+      console.log("Login response:", res.data);
+
+      const { token, user } = res.data;
+      localStorage.setItem("token", token);
+      setUser(user);
+      return res.data;
+    } catch (error) {
+      console.error("Login error details:", error.response?.data); // This is important!
+      throw error;
+    }
+  };
 
   // ✅ LOGOUT
   const logout = () => {

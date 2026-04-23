@@ -44,7 +44,6 @@ export default function Results() {
   const [grade, setGrade] = useState("");
   const [status, setStatus] = useState("");
 
-  const grades = ["A", "B", "C", "D", "E", "F"];
   const statuses = ["Pass", "Fail"];
 
   const fetchResults = async () => {
@@ -111,17 +110,7 @@ export default function Results() {
     return "danger";
   };
 
-  const getGradeBadge = (grade) => {
-    const colors = {
-      A: "success",
-      B: "info",
-      C: "primary",
-      D: "warning",
-      E: "danger",
-      F: "danger",
-    };
-    return colors[grade] || "secondary";
-  };
+
 
   const exportToCSV = () => {
     const headers = [
@@ -193,10 +182,11 @@ export default function Results() {
           >
             Exam Results
           </h1>
-          <p className="text-muted mt-2">
-            Viewing results for:{" "}
-            <strong className="text-primary">{selectedExam.title}</strong>
-          </p>
+          <h4>Nursing and Midwifery Council of Nigeria </h4>
+            <p className="text-muted mt-2">
+              Viewing Results for:{" "}
+              <strong className="text-primary">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
+            </p>
         </div>
 
         <div className="d-flex gap-2">
@@ -343,19 +333,6 @@ export default function Results() {
 
               <div className="col-md-2">
                 <label className="form-label fw-semibold small">
-                  <FaMapMarkerAlt className="me-1" size={12} /> State
-                </label>
-                <input
-                  className="form-control"
-                  placeholder="State"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleFilter()}
-                />
-              </div>
-
-              <div className="col-md-2">
-                <label className="form-label fw-semibold small">
                   <FaSchool className="me-1" size={12} /> School
                 </label>
                 <input
@@ -404,22 +381,6 @@ export default function Results() {
                   value={maxScore}
                   onChange={(e) => setMaxScore(e.target.value)}
                 />
-              </div>
-
-              <div className="col-md-1">
-                <label className="form-label fw-semibold small">Grade</label>
-                <select
-                  className="form-select"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                >
-                  <option value="">All</option>
-                  {grades.map((g) => (
-                    <option key={g} value={g}>
-                      {g}
-                    </option>
-                  ))}
-                </select>
               </div>
 
               <div className="col-md-1">
@@ -482,12 +443,11 @@ export default function Results() {
               <tr>
                 <th className="py-3 px-4">#</th>
                 <th className="py-3 px-4">Candidate Name</th>
-                <th className="py-3 px-4">Reg Number</th>
+                <th className="py-3 px-4">Exam Number</th>
                 <th className="py-3 px-4">School</th>
                 <th className="py-3 px-4">State</th>
                 <th className="py-3 px-4">Centre</th>
                 <th className="py-3 px-4">Score</th>
-                <th className="py-3 px-4">Grade</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Actions</th>
               </tr>
@@ -543,13 +503,7 @@ export default function Results() {
                         {r.score}%
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`badge bg-${getGradeBadge(r.grade)} bg-opacity-10 text-${getGradeBadge(r.grade)} px-3 py-2 rounded-pill`}
-                      >
-                        {r.grade}
-                      </span>
-                    </td>
+
                     <td className="py-3 px-4">
                       <span
                         className={`badge ${r.status === "Pass" ? "bg-success" : "bg-danger"} px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1`}
