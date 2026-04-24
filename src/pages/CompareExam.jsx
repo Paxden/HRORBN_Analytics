@@ -149,7 +149,7 @@ export default function CompareExams() {
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
           <h1
-            className="display-6 fw-bold mb-0"
+            className="h2 fw-bold mb-0"
             style={{
               background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
               WebkitBackgroundClip: "text",

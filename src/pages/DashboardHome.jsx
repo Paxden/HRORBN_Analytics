@@ -216,7 +216,7 @@ export default function DashboardHome() {
         <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
           <div>
             <h1
-              className="display-6 fw-bold mb-0"
+              className="h2 fw-bold mb-0"
               style={{
                 background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
                 WebkitBackgroundClip: "text",
@@ -242,7 +242,7 @@ export default function DashboardHome() {
       </div>
 
       {/* Main Stats Row */}
-      <div className="row g-3 mb-4">
+      <div className="row g-4 mb-4">
         {statCards.map((stat, index) => (
           <div key={index} className="col-md-3 col-sm-6">
             <div
@@ -261,7 +261,7 @@ export default function DashboardHome() {
             >
               <div className="card-body p-3">
                 <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className={`${stat.bgColor} rounded-3 p-3`}>
+                  <div className={`${stat.bgColor} rounded-3 p-2`}>
                     <div
                       className={stat.textColor}
                       style={{ fontSize: "1.5rem" }}
@@ -270,12 +270,12 @@ export default function DashboardHome() {
                     </div>
                   </div>
                   <div className="text-end">
-                    <h3 className="fw-bold mb-0">
+                    <h4 className="fw-bold mb-0">
                       {stat.value}
                       {stat.suffix && (
                         <small className="fs-6 text-muted">{stat.suffix}</small>
                       )}
-                    </h3>
+                    </h4>
                   </div>
                 </div>
                 <h6 className="fw-semibold mb-0">{stat.title}</h6>
@@ -286,7 +286,7 @@ export default function DashboardHome() {
       </div>
 
       {/* Performance Row */}
-      <div className="row g-3 mb-4">
+      <div className="row g-4 mb-4">
         {performanceCards.map((card, index) => (
           <div key={index} className="col-md-3 col-sm-6">
             <div
@@ -305,7 +305,7 @@ export default function DashboardHome() {
             >
               <div className="card-body p-3">
                 <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className={`${card.bgColor} rounded-3 p-3`}>
+                  <div className={`${card.bgColor} rounded-3 p-2`}>
                     <div
                       className={card.textColor}
                       style={{ fontSize: "1.5rem" }}
@@ -314,7 +314,7 @@ export default function DashboardHome() {
                     </div>
                   </div>
                   <div className="text-end">
-                    <h3 className="fw-bold mb-0">{card.value}</h3>
+                    <h4 className="fw-bold mb-0">{card.value}</h4>
                   </div>
                 </div>
                 <h6 className="fw-semibold mb-0">{card.title}</h6>

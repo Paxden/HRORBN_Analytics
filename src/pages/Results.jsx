@@ -6,22 +6,23 @@ import {
   FaSpinner,
   FaSearch,
   FaFilter,
-  FaDownload,
   FaPrint,
   FaChevronLeft,
   FaChevronRight,
   FaTrophy,
   FaUserGraduate,
   FaSchool,
-  FaMapMarkerAlt,
   FaBuilding,
   FaChartLine,
   FaCheckCircle,
   FaTimesCircle,
   FaEye,
   FaFileExport,
+  FaUsers,
+  FaPercentage,
+  FaRegFileAlt,
 } from "react-icons/fa";
-import { MdAnalytics } from "react-icons/md";
+import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 
 export default function Results() {
   const { selectedExam } = useAuth();
@@ -43,6 +44,7 @@ export default function Results() {
   const [maxScore, setMaxScore] = useState("");
   const [grade, setGrade] = useState("");
   const [status, setStatus] = useState("");
+  const [stats, setStats] = useState(null);
 
   const statuses = ["Pass", "Fail"];
 
@@ -110,8 +112,6 @@ export default function Results() {
     return "danger";
   };
 
-
-
   const exportToCSV = () => {
     const headers = [
       "S/N",
@@ -148,6 +148,104 @@ export default function Results() {
     URL.revokeObjectURL(url);
   };
 
+  const fetchAnalytics = async () => {
+    try {
+      if (!selectedExam?._id) return;
+
+      setLoading(true);
+      setError(null);
+
+      const res = await api.get("/analytics/stats", {
+        params: {
+          examId: selectedExam._id,
+        },
+      });
+
+      // Calculate additional metrics from response data
+      const data = res.data;
+      const totalCandidates = data.totalCandidates || 0;
+      const passCount = data.passCount || 0;
+      const passRate =
+        totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+
+      const analyticsData = {
+        totalCandidates: totalCandidates,
+        avgScore: data.avgScore || 0,
+        maxScore: data.maxScore || 0,
+        minScore: data.minScore || 0,
+        passCount: passCount,
+        failCount: data.failCount || 0,
+        passRate: passRate,
+        scoreDistribution: data.scoreDistribution || [],
+        topSchools: data.topSchools || [],
+        topCandidates: data.topCandidates || [],
+        ...data,
+      };
+
+      setStats(analyticsData);
+    } catch (err) {
+      console.error("Analytics error:", err);
+      setError(err.response?.data?.message || "Failed to load analytics");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getPassRateColor = (passCount, totalCandidates) => {
+    const rate = totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+    if (rate >= 70) return "success";
+    if (rate >= 50) return "warning";
+    return "danger";
+  };
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [selectedExam]);
+
+  // Safely extract values from stats with defaults
+  const totalCandidates = stats?.totalCandidates || 0;
+  const avgScore = stats?.avgScore || 0;
+  const maxScoreStat = stats?.maxScore || 0;
+  const passCount = stats?.passCount || 0;
+  const passRate = stats?.passRate || 0;
+
+  const statCards = [
+    {
+      title: "Total Candidates",
+      value: totalCandidates.toLocaleString(),
+      icon: <FaUsers />,
+      color: "primary",
+      bgColor: "bg-primary bg-opacity-10",
+      textColor: "text-primary",
+    },
+    {
+      title: "Average Score",
+      value: avgScore.toFixed(2),
+      icon: <MdAnalytics />,
+      color: "info",
+      bgColor: "bg-info bg-opacity-10",
+      textColor: "text-info",
+      suffix: "%",
+    },
+    {
+      title: "Highest Score",
+      value: maxScoreStat,
+      icon: <FaTrophy />,
+      color: "warning",
+      bgColor: "bg-warning bg-opacity-10",
+      textColor: "text-warning",
+      suffix: "%",
+    },
+    {
+      title: "Pass Rate",
+      value: `${passRate.toFixed(1)}%`,
+      icon: <FaPercentage />,
+      color: getPassRateColor(passCount, totalCandidates),
+      bgColor: `bg-${getPassRateColor(passCount, totalCandidates)} bg-opacity-10`,
+      textColor: `text-${getPassRateColor(passCount, totalCandidates)}`,
+    },
+  ];
+
   if (!selectedExam?._id) {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-50">
@@ -173,7 +271,7 @@ export default function Results() {
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
           <h1
-            className="display-6 fw-bold mb-0"
+            className="h2 fw-bold mb-0"
             style={{
               background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
               WebkitBackgroundClip: "text",
@@ -182,17 +280,22 @@ export default function Results() {
           >
             Exam Results
           </h1>
-          <h4>Nursing and Midwifery Council of Nigeria </h4>
-            <p className="text-muted mt-2">
-              Viewing Results for:{" "}
-              <strong className="text-primary">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
-            </p>
+          <h4 className="mt-2 mb-1">
+            Nursing and Midwifery Council of Nigeria
+          </h4>
+          <p className="text-muted">
+            Viewing Results for:{" "}
+            <strong className="text-primary">
+              {selectedExam.title} CBT and CAOSCE Result Dashboard
+            </strong>
+          </p>
         </div>
 
         <div className="d-flex gap-2">
           <button
             className="btn btn-outline-secondary btn-sm"
             onClick={exportToCSV}
+            disabled={results.length === 0}
           >
             <FaFileExport className="me-1" size={14} /> Export CSV
           </button>
@@ -214,100 +317,46 @@ export default function Results() {
 
       {/* Summary Cards */}
       <div className="row g-3 mb-4">
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between">
-                <div>
-                  <small className="text-muted">Total Candidates</small>
-                  <h3 className="fw-bold mb-0">
-                    {totalResults.toLocaleString()}
-                  </h3>
+        {statCards.map((stat, index) => (
+          <div key={index} className="col-md-3 col-sm-6">
+            <div
+              className="card border-0 shadow-sm h-100 animate-slide-up"
+              style={{
+                borderRadius: "1rem",
+                transition: "transform 0.3s ease",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-5px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              <div className="card-body p-3">
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div className={`${stat.bgColor} rounded-3 p-3`}>
+                    <div
+                      className={stat.textColor}
+                      style={{ fontSize: "1.5rem" }}
+                    >
+                      {stat.icon}
+                    </div>
+                  </div>
+                  <div className="text-end">
+                    <h3 className="fw-bold mb-0">
+                      {stat.value}
+                      {stat.suffix && (
+                        <small className="fs-6 text-muted">{stat.suffix}</small>
+                      )}
+                    </h3>
+                  </div>
                 </div>
-                <div className="bg-primary bg-opacity-10 rounded-3 p-3">
-                  <FaUserGraduate className="text-primary" size={24} />
-                </div>
+                <h6 className="fw-semibold mb-0">{stat.title}</h6>
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between">
-                <div>
-                  <small className="text-muted">Average Score</small>
-                  <h3 className="fw-bold mb-0">
-                    {results.length > 0
-                      ? (
-                          results.reduce((sum, r) => sum + (r.score || 0), 0) /
-                          results.length
-                        ).toFixed(1)
-                      : "-"}
-                  </h3>
-                </div>
-                <div className="bg-info bg-opacity-10 rounded-3 p-3">
-                  <MdAnalytics className="text-info" size={24} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between">
-                <div>
-                  <small className="text-muted">Highest Score</small>
-                  <h3 className="fw-bold mb-0">
-                    {results.length > 0
-                      ? Math.max(...results.map((r) => r.score || 0))
-                      : "-"}
-                  </h3>
-                </div>
-                <div className="bg-warning bg-opacity-10 rounded-3 p-3">
-                  <FaTrophy className="text-warning" size={24} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div
-            className="card border-0 shadow-sm h-100"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-between">
-                <div>
-                  <small className="text-muted">Pass Rate</small>
-                  <h3 className="fw-bold mb-0">
-                    {results.length > 0
-                      ? (
-                          (results.filter((r) => r.status === "Pass").length /
-                            results.length) *
-                          100
-                        ).toFixed(1)
-                      : "-"}
-                    %
-                  </h3>
-                </div>
-                <div className="bg-success bg-opacity-10 rounded-3 p-3">
-                  <FaChartLine className="text-success" size={24} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Filters Card */}
@@ -399,14 +448,14 @@ export default function Results() {
                 </select>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label className="form-label fw-semibold small">&nbsp;</label>
                 <div className="d-flex gap-2">
                   <button
                     className="btn btn-primary flex-grow-1"
                     onClick={handleFilter}
                   >
-                    <FaSearch className="me-1" size={14} /> Apply Filters
+                    <FaSearch className="me-1" size={14} />  Filter
                   </button>
                   <button
                     className="btn btn-outline-secondary"
@@ -456,7 +505,7 @@ export default function Results() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="10" className="text-center py-5">
+                  <td colSpan="9" className="text-center py-5">
                     <FaSpinner
                       className="fa-spin mb-2"
                       size={30}
@@ -467,7 +516,7 @@ export default function Results() {
                 </tr>
               ) : results.length === 0 ? (
                 <tr>
-                  <td colSpan="10" className="text-center py-5">
+                  <td colSpan="9" className="text-center py-5">
                     <div className="text-muted">
                       <FaUserGraduate size={48} className="mb-3 opacity-25" />
                       <p className="mb-0">No results found for this exam</p>
