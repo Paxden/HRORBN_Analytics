@@ -18,6 +18,8 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import { MdAnalytics, MdVerified } from "react-icons/md";
+// #32803e #78a372
+
 
 export default function UploadExam() {
   const { setSelectedExam } = useAuth();
@@ -130,9 +132,8 @@ export default function UploadExam() {
           <h1
             className="h2 fw-bold mb-0"
             style={{
-              background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: "#32803e",
+             
             }}
           >
             Upload New Exam
@@ -155,10 +156,10 @@ export default function UploadExam() {
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <div
-                  className="bg-gradient-primary rounded-3 p-2"
+                  className="bg-gradient-success rounded-3 p-2"
                   style={{
                     background:
-                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                   }}
                 >
                   <FaCloudUploadAlt className="text-white" size={18} />
@@ -228,7 +229,7 @@ export default function UploadExam() {
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                     style={{
-                      border: `2px dashed ${dragActive ? "#0d6efd" : "#dee2e6"}`,
+                      border: `2px dashed ${dragActive ? "#32803e" : "#dee2e6"}`,
                       borderRadius: "1rem",
                       backgroundColor: dragActive
                         ? "rgba(13, 110, 253, 0.05)"
@@ -297,13 +298,13 @@ export default function UploadExam() {
                 <div className="d-flex gap-3">
                   <button
                     type="submit"
-                    className="btn btn-primary flex-grow-1"
+                    className="btn btn-success flex-grow-1"
                     disabled={loading || !title || !file}
                     style={{
                       borderRadius: "0.75rem",
                       padding: "0.75rem",
                       background:
-                        "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                       border: "none",
                     }}
                   >
@@ -361,7 +362,7 @@ export default function UploadExam() {
                     className="d-flex align-items-center gap-2 p-2 bg-light rounded-3"
                   >
                     <code className="small flex-grow-1">{col}</code>
-                    <span className="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                    <span className="badge bg-success bg-opacity-10 text-success rounded-pill">
                       Required
                     </span>
                   </div>
@@ -430,7 +431,7 @@ C003,Michael Lee,67,GHI College,Rivers,Centre A`}
                 </pre>
               </div>
               <button
-                className="btn btn-sm btn-outline-primary mt-3 w-100"
+                className="btn btn-sm btn-outline-success mt-3 w-100"
                 onClick={() => {
                   // Create and download example CSV
                   const exampleData = `candidate_id,candidate_name,score,school,state,centre\nC001,John Doe,85,ABC High School,Lagos,Centre A\nC002,Jane Smith,92,DEF Academy,Abuja,Centre B\nC003,Michael Lee,67,GHI College,Rivers,Centre A`;
@@ -485,13 +486,13 @@ C003,Michael Lee,67,GHI College,Rivers,Centre A`}
         }
         
         .file-upload-area.drag-active {
-          border-color: #0d6efd !important;
+          border-color: #32803e !important;
           background-color: rgba(13, 110, 253, 0.05) !important;
         }
         
         .form-control:focus {
           box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-          border-color: #0d6efd;
+          border-color: #32803e;
         }
         
         pre {

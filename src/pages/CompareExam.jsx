@@ -40,6 +40,8 @@ import {
   MdTrendingUp,
   MdTrendingDown,
 } from "react-icons/md";
+// #32803e #78a372
+
 
 export default function CompareExams() {
   const [exams, setExams] = useState([]);
@@ -135,7 +137,7 @@ export default function CompareExams() {
           <FaSpinner
             className="fa-spin mb-3"
             size={48}
-            style={{ color: "#0d6efd" }}
+            style={{ color: "#32803e" }}
           />
           <h5 className="text-muted">Loading exams...</h5>
         </div>
@@ -151,9 +153,8 @@ export default function CompareExams() {
           <h1
             className="h2 fw-bold mb-0"
             style={{
-              background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              color: "#32803e",
+              
             }}
           >
             Compare Exams
@@ -190,10 +191,10 @@ export default function CompareExams() {
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
                 <div
-                  className="bg-gradient-primary rounded-3 p-2"
+                  className="bg-gradient-success rounded-3 p-2"
                   style={{
                     background:
-                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                   }}
                 >
                   <MdCompare className="text-white" size={18} />
@@ -219,7 +220,7 @@ export default function CompareExams() {
                     {exams.map((exam, idx) => (
                       <div
                         key={exam._id}
-                        className={`form-check p-3 rounded-3 transition-all ${selected.includes(exam._id) ? "bg-primary bg-opacity-10 border border-primary" : "bg-light"}`}
+                        className={`form-check p-3 rounded-3 transition-all ${selected.includes(exam._id) ? "bg-success bg-opacity-10 border border-success" : "bg-light"}`}
                         style={{ cursor: "pointer" }}
                         onClick={() => toggleExam(exam._id)}
                       >
@@ -238,7 +239,7 @@ export default function CompareExams() {
                           {exam.title}
                         </label>
                         {selected.includes(exam._id) && (
-                          <span className="badge bg-primary ms-2">
+                          <span className="badge bg-success ms-2">
                             Selected
                           </span>
                         )}
@@ -248,7 +249,7 @@ export default function CompareExams() {
 
                   <div className="d-flex gap-2">
                     <button
-                      className="btn btn-primary flex-grow-1"
+                      className="btn btn-success flex-grow-1"
                       onClick={compare}
                       disabled={comparing || selected.length < 2}
                       style={{ borderRadius: "0.75rem" }}
@@ -301,7 +302,7 @@ export default function CompareExams() {
                     return (
                       <span
                         key={id}
-                        className="badge bg-primary bg-opacity-10 text-primary p-2 rounded-pill"
+                        className="badge bg-success bg-opacity-10 text-success p-2 rounded-pill"
                       >
                         {exam?.title || id}
                       </span>
@@ -343,8 +344,8 @@ export default function CompareExams() {
               >
                 <div className="card-header bg-white border-0 pt-4 px-4">
                   <div className="d-flex align-items-center gap-2">
-                    <div className="bg-primary bg-opacity-10 rounded-3 p-2">
-                      <FaChartBar className="text-primary" size={18} />
+                    <div className="bg-success bg-opacity-10 rounded-3 p-2">
+                      <FaChartBar className="text-success" size={18} />
                     </div>
                     <div>
                       <h5 className="fw-bold mb-0">Average Score Comparison</h5>
@@ -368,8 +369,8 @@ export default function CompareExams() {
                           x2="0"
                           y2="1"
                         >
-                          <stop offset="0%" stopColor="#0d6efd" />
-                          <stop offset="100%" stopColor="#0dcaf0" />
+                          <stop offset="0%" stopColor="#32803e" />
+                          <stop offset="100%" stopColor="#78a372" />
                         </linearGradient>
                       </defs>
                       <CartesianGrid
@@ -550,7 +551,7 @@ export default function CompareExams() {
                       <tbody>
                         <tr>
                           <td className="py-3 px-4 fw-semibold">
-                            <FaUsers className="me-2 text-primary" size={14} />{" "}
+                            <FaUsers className="me-2 text-success" size={14} />{" "}
                             Total Candidates
                           </td>
                           {data.map((d) => (
@@ -566,7 +567,7 @@ export default function CompareExams() {
                           </td>
                           {data.map((d) => (
                             <td key={d.examId} className="text-center py-3">
-                              <span className="fw-bold text-primary">
+                              <span className="fw-bold text-success">
                                 {d.avgScore?.toFixed(1) || 0}%
                               </span>
                             </td>
@@ -685,12 +686,12 @@ export default function CompareExams() {
           transition: all 0.3s ease;
         }
 
-        .bg-gradient-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .bg-gradient-success {
+          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
         }
 
         .bg-gradient {
-          background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
+          background: linear-gradient(90deg, #32803e 0%, #78a372 100%);
         }
 
         .form-check {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 // pages/dashboard/Analytics.jsx
 import { useEffect, useState } from "react";
@@ -35,6 +36,8 @@ import {
   FaPercentage,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
+// #32803e #78a372
+
 
 export default function Analytics() {
   const { selectedExam } = useAuth();
@@ -211,9 +214,9 @@ export default function Analytics() {
       title: "Total Candidates",
       value: totalCandidates.toLocaleString(),
       icon: <FaUsers />,
-      color: "primary",
-      bgColor: "bg-primary bg-opacity-10",
-      textColor: "text-primary",
+      color: "success",
+      bgColor: "bg-success bg-opacity-10",
+      textColor: "text-success",
     },
     {
       title: "Average Score",
@@ -253,7 +256,7 @@ export default function Analytics() {
           <h1
             className="h2 fw-bold mb-0"
             style={{
-              background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+              background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -263,7 +266,7 @@ export default function Analytics() {
          <h4>Nursing and Midwifery Council of Nigeria </h4>
             <p className="text-muted mt-2">
               Performance Analytics for:{" "}
-              <strong className="text-primary">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
+              <strong className="text-success">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
             </p>
         </div>
 
@@ -340,10 +343,10 @@ export default function Analytics() {
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div className="d-flex align-items-center gap-2">
                   <div
-                    className="bg-gradient-primary rounded-3 p-2"
+                    className="bg-gradient-success rounded-3 p-2"
                     style={{
                       background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                     }}
                   >
                     <FaChartLine className="text-white" size={18} />
@@ -534,10 +537,10 @@ export default function Analytics() {
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div className="d-flex align-items-center gap-2">
                   <div
-                    className="bg-gradient-primary rounded-3 p-2"
+                    className="bg-gradient-success rounded-3 p-2"
                     style={{
                       background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                     }}
                   >
                     <FaChartBar className="text-white" size={18} />
@@ -557,7 +560,7 @@ export default function Analytics() {
                       <small className="text-muted d-block">
                         Total Students
                       </small>
-                      <span className="fw-bold text-primary">
+                      <span className="fw-bold text-success">
                         {scoreDistribution.reduce(
                           (sum, item) => sum + (item.count || 0),
                           0
@@ -607,8 +610,8 @@ export default function Analytics() {
                           x2="0"
                           y2="1"
                         >
-                          <stop offset="0%" stopColor="#667eea" />
-                          <stop offset="100%" stopColor="#764ba2" />
+                          <stop offset="0%" stopColor="#32803e" />
+                          <stop offset="100%" stopColor="#78a372" />
                         </linearGradient>
                         <filter
                           id="shadow"
@@ -688,7 +691,7 @@ export default function Analytics() {
                           <FaTrophy size={14} className="text-warning" />
                           <small className="text-muted">Highest Range</small>
                         </div>
-                        <p className="fw-bold mb-0 text-primary">
+                        <p className="fw-bold mb-0 text-success">
                           {scoreDistribution.reduce(
                             (max, item) =>
                               (item.count || 0) > (max.count || 0) ? item : max,
@@ -740,7 +743,7 @@ export default function Analytics() {
           >
             <div className="card-header bg-white border-0 pt-4 px-4">
               <div className="d-flex align-items-center gap-2">
-                <FaSchool className="text-primary" size={18} />
+                <FaSchool className="text-success" size={18} />
                 <h5 className="fw-bold mb-0">Top Performing Schools</h5>
               </div>
             </div>
@@ -942,8 +945,8 @@ export default function Analytics() {
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         }
 
-        .bg-gradient-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .bg-gradient-success {
+          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
         }
 
         .recharts-bar-rectangle:hover {

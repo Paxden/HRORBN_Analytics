@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import { FaChartBar, FaTrophy, FaChartLine } from "react-icons/fa";
 import { MdAnalytics } from "react-icons/md";
+// #32803e #78a372
+
 
 export default function ScoreDistribution({
   data,
@@ -57,9 +59,9 @@ export default function ScoreDistribution({
         <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
           <div className="d-flex align-items-center gap-2">
             <div
-              className="bg-gradient-primary rounded-3 p-2"
+              className="bg-gradient-success rounded-3 p-2"
               style={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
               }}
             >
               <FaChartBar className="text-white" size={18} />
@@ -76,7 +78,7 @@ export default function ScoreDistribution({
             <div className="d-flex gap-3">
               <div className="text-end">
                 <small className="text-muted d-block">Total Students</small>
-                <span className="fw-bold text-primary">
+                <span className="fw-bold text-success">
                   {getTotalStudents()}
                 </span>
               </div>
@@ -121,8 +123,8 @@ export default function ScoreDistribution({
               >
                 <defs>
                   <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#667eea" />
-                    <stop offset="100%" stopColor="#764ba2" />
+                    <stop offset="0%" stopColor="#32803e" />
+                    <stop offset="100%" stopColor="#78a372" />
                   </linearGradient>
                   <linearGradient
                     id="barHoverGradient"
@@ -131,8 +133,8 @@ export default function ScoreDistribution({
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="0%" stopColor="#5a67d8" />
-                    <stop offset="100%" stopColor="#6b46a0" />
+                    <stop offset="0%" stopColor="#32803e" />
+                    <stop offset="100%" stopColor="#78a372" />
                   </linearGradient>
                   <filter
                     id="shadow"
@@ -247,7 +249,7 @@ export default function ScoreDistribution({
 
       <style>{`
         .bg-gradient-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
         }
         
         .recharts-bar-rectangle:hover {

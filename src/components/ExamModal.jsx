@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // components/ExamModal.jsx
 import { useState, useEffect } from "react";
 import api from "../api/Auth";
@@ -16,6 +17,8 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { MdAnalytics, MdVerified } from "react-icons/md";
+
+// #78a372 #32803e
 
 export default function ExamModal({ show, onExamSelected, onClose }) {
   const [exams, setExams] = useState([]);
@@ -211,11 +214,11 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
     <div className="modal-overlay animate-fade-in">
       <div className="modal-container animate-slide-up">
         {/* Modal Header */}
-        <div className="modal-header bg-gradient-primary">
+        <div className="modal-header bg-gradient-success">
           <div className="d-flex align-items-center gap-2">
             <div className="bg-white bg-opacity-20 rounded-3 p-2">
               {!showUpload ? (
-                <MdAnalytics className="text-white" size={20} />
+                <MdAnalytics className="text-success" size={30} />
               ) : (
                 <FaCloudUploadAlt className="text-white" size={20} />
               )}
@@ -267,7 +270,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
             <div>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h6 className="fw-bold mb-0">Available Exams</h6>
-                <span className="badge bg-primary bg-opacity-10 text-primary rounded-pill">
+                <span className="badge bg-success bg-opacity-10 text-success rounded-pill">
                   {exams.length} Exams
                 </span>
               </div>
@@ -277,7 +280,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                   <FaSpinner
                     className="fa-spin mb-3"
                     size={40}
-                    style={{ color: "#667eea" }}
+                    style={{ color: "#32803e" }}
                   />
                   <p className="text-muted mb-0">Loading exams...</p>
                 </div>
@@ -304,7 +307,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                         cursor: "pointer",
                         border:
                           selectedExam === exam._id
-                            ? "2px solid #667eea"
+                            ? "2px solid #32803e"
                             : "1px solid transparent",
                         backgroundColor:
                           selectedExam === exam._id
@@ -323,11 +326,11 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                               value={exam._id}
                               checked={selectedExam === exam._id}
                               onChange={() => setSelectedExam(exam._id)}
-                              className="form-check-input"
+                              className="form-check-input radio-success"
                               style={{ cursor: "pointer" }}
                             />
                           </div>
-                          <div className="flex-grow-1">
+                          <div className="flex-grow-1 ">
                             <label
                               htmlFor={exam._id}
                               style={{ cursor: "pointer" }}
@@ -355,7 +358,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                           </div>
                         </div>
                         {selectedExam === exam._id && (
-                          <FaCheckCircle className="text-primary" size={18} />
+                          <FaCheckCircle className="text-success ms-2" size={18} />
                         )}
                       </div>
                     </div>
@@ -367,7 +370,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
 
               <div className="d-flex gap-3">
                 <button
-                  className="btn btn-outline-primary flex-grow-1"
+                  className="btn btn-outline-success flex-grow-1"
                   onClick={() => setShowUpload(true)}
                   disabled={loading}
                   style={{ borderRadius: "0.75rem" }}
@@ -376,13 +379,13 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                   Upload New Exam
                 </button>
                 <button
-                  className="btn btn-primary flex-grow-1"
+                  className="btn btn-success flex-grow-1"
                   onClick={handleSelectExam}
                   disabled={!selectedExam || loading}
                   style={{
                     borderRadius: "0.75rem",
                     background:
-                      "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
                     border: "none",
                   }}
                 >
@@ -420,7 +423,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="e.g., NCLEX RN January 2024"
+                    placeholder="e.g., NMCN  January 2024"
                     value={examTitle}
                     onChange={(e) => setExamTitle(e.target.value)}
                     disabled={uploading}
@@ -445,7 +448,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                     style={{
-                      border: `2px dashed ${dragActive ? "#667eea" : "#dee2e6"}`,
+                      border: `2px dashed ${dragActive ? "#32803e" : "#dee2e6"}`,
                       borderRadius: "1rem",
                       backgroundColor: dragActive
                         ? "rgba(102, 126, 234, 0.05)"
@@ -649,8 +652,8 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
           border-top: 1px solid #e9ecef;
         }
 
-        .bg-gradient-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .bg-gradient-success {
+          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
         }
 
         .bg-white-20 {
@@ -671,7 +674,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
         }
 
         .file-upload-area.drag-active {
-          border-color: #667eea !important;
+          border-color: #32803e !important;
           background-color: rgba(102, 126, 234, 0.05) !important;
         }
 
@@ -679,7 +682,7 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
         .form-select:focus,
         .form-check-input:focus {
           box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-          border-color: #667eea;
+          border-color: #32803e;
         }
 
         @keyframes spin {
@@ -694,6 +697,27 @@ export default function ExamModal({ show, onExamSelected, onClose }) {
         .fa-spin {
           animation: spin 1s linear infinite;
         }
+          /* For Bootstrap 5 */
+.radio-success:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+/* For Bootstrap 4 or custom */
+.radio-success:checked {
+  accent-color: #28a745; /* Modern browsers - easiest way */
+}
+
+/* Or for complete control (Bootstrap 4/5) */
+.radio-success {
+  accent-color: #28a745;
+}
+
+/* If accent-color doesn't work in older browsers */
+.radio-success:checked {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
       `}</style>
     </div>
   );

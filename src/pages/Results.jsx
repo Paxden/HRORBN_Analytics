@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // pages/dashboard/Results.jsx
 import { useEffect, useState } from "react";
 import api from "../api/Auth";
@@ -23,6 +24,8 @@ import {
   FaRegFileAlt,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
+// #32803e #78a372
+
 
 export default function Results() {
   const { selectedExam } = useAuth();
@@ -214,9 +217,9 @@ export default function Results() {
       title: "Total Candidates",
       value: totalCandidates.toLocaleString(),
       icon: <FaUsers />,
-      color: "primary",
-      bgColor: "bg-primary bg-opacity-10",
-      textColor: "text-primary",
+      color: "success",
+      bgColor: "bg-success bg-opacity-10",
+      textColor: "text-success",
     },
     {
       title: "Average Score",
@@ -273,7 +276,7 @@ export default function Results() {
           <h1
             className="h2 fw-bold mb-0"
             style={{
-              background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
+              background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -285,7 +288,7 @@ export default function Results() {
           </h4>
           <p className="text-muted">
             Viewing Results for:{" "}
-            <strong className="text-primary">
+            <strong className="text-success">
               {selectedExam.title} CBT and CAOSCE Result Dashboard
             </strong>
           </p>
@@ -306,7 +309,7 @@ export default function Results() {
             <FaPrint className="me-1" size={14} /> Print
           </button>
           <button
-            className="btn btn-outline-primary btn-sm"
+            className="btn btn-outline-success btn-sm"
             onClick={() => setShowFilters(!showFilters)}
           >
             <FaFilter className="me-1" size={14} />{" "}
@@ -452,7 +455,7 @@ export default function Results() {
                 <label className="form-label fw-semibold small">&nbsp;</label>
                 <div className="d-flex gap-2">
                   <button
-                    className="btn btn-primary flex-grow-1"
+                    className="btn btn-success flex-grow-1"
                     onClick={handleFilter}
                   >
                     <FaSearch className="me-1" size={14} />  Filter
@@ -567,7 +570,7 @@ export default function Results() {
                     </td>
                     <td className="py-3 px-4">
                       <button
-                        className="btn btn-sm btn-outline-primary"
+                        className="btn btn-sm btn-outline-success"
                         style={{ borderRadius: "0.5rem" }}
                       >
                         <FaEye size={12} /> View

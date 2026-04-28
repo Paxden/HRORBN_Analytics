@@ -14,6 +14,10 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import { MdAnalytics } from "react-icons/md";
+import Logo from "../assets/nmcn.jpeg";
+import { Image } from "react-bootstrap";
+
+// #78a372 #32803e
 
 export default function Login() {
   const { login, loading: authLoading } = useAuth(); // Get loading from auth context
@@ -79,22 +83,20 @@ export default function Login() {
                 <div className="text-center mb-4">
                   <div className="logo-wrapper animate-bounce">
                     <div className="logo-icon">
-                      <MdAnalytics size={48} />
+                      <Image src={Logo} alt="NMCN Analytics" width="100px" height="100px" />
                     </div>
                   </div>
                   <h2
                     className="fw-bold mt-3 mb-1"
                     style={{
-                      background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
+                      color: "#32803e",
+                     
                     }}
                   >
                     NMCN Analytics
                   </h2>
                   <p className="text-muted small">
-                    Sign in to continue to your dashboard
+                    Sign in to continue to  dashboard
                   </p>
                 </div>
 
@@ -113,8 +115,8 @@ export default function Login() {
                 <form onSubmit={handleSubmit}>
                   {/* Email Field */}
                   <div className="mb-3">
-                    <label className="form-label fw-semibold small">
-                      <FaEnvelope className="me-1" size={12} /> Email Address
+                    <label className=" form-label fw-semibold ">
+                       Email Address
                     </label>
                     <div className="input-group">
                       <span
@@ -143,8 +145,8 @@ export default function Login() {
 
                   {/* Password Field */}
                   <div className="mb-4">
-                    <label className="form-label fw-semibold small">
-                      <FaLock className="me-1" size={12} /> Password
+                    <label className="form-label fw-semibold ">
+                     Password
                     </label>
                     <div className="input-group">
                       <span
@@ -190,7 +192,7 @@ export default function Login() {
                     style={{
                       borderRadius: "0.75rem",
                       background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        "linear-gradient(135deg, #32803e  0%, #78a372 100%)",
                       border: "none",
                       fontWeight: "bold",
                       transition: "transform 0.3s ease",
@@ -300,7 +302,7 @@ export default function Login() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #b3d8ad 0%, #32803e 100%);
           z-index: -2;
         }
 
@@ -355,7 +357,7 @@ export default function Login() {
         .logo-icon {
           width: 70px;
           height: 70px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #b3d8ad 0%, #32803e 100%);
           border-radius: 1rem;
           display: flex;
           align-items: center;
@@ -386,12 +388,12 @@ export default function Login() {
 
         .form-control:focus {
           box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-          border-color: #667eea;
+          border-color: #b3d8ad;
         }
 
         .form-control:focus + .input-group-text,
         .input-group:focus-within .input-group-text {
-          border-color: #667eea;
+          border-color: #b3d8ad;
         }
 
         .demo-credentials {
@@ -407,7 +409,7 @@ export default function Login() {
           padding: 2px 6px;
           border-radius: 4px;
           font-size: 11px;
-          color: #667eea;
+          color: #b3d8ad;
         }
 
         @media (max-width: 768px) {

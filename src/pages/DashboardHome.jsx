@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // pages/dashboard/DashboardHome.jsx
 import { useEffect, useState } from "react";
 import api from "../api/Auth";
@@ -20,6 +21,8 @@ import {
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import ScoreDistribution from "../components/ScoreDistribution";
+// #78a372 #32803e
+
 
 export default function DashboardHome() {
   const { selectedExam } = useAuth();
@@ -136,9 +139,9 @@ export default function DashboardHome() {
       title: "Total Candidates",
       value: totalCandidates.toLocaleString(),
       icon: <FaUsers />,
-      color: "primary",
-      bgColor: "bg-primary bg-opacity-10",
-      textColor: "text-primary",
+      color: "success",
+      bgColor: "bg-success bg-opacity-10",
+      textColor: "text-success",
     },
     {
       title: "Average Score",
@@ -218,9 +221,7 @@ export default function DashboardHome() {
             <h1
               className="h2 fw-bold mb-0"
               style={{
-                background: "linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
+                color: "#32803e",
               }}
             >
               Dashboard Overview
@@ -228,7 +229,7 @@ export default function DashboardHome() {
             <h4>Nursing and Midwifery Council of Nigeria </h4>
             <p className="text-muted mt-2">
               Viewing statistics for:{" "}
-              <strong className="text-primary">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
+              <strong className="text-success">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
             </p>
           </div>
 
