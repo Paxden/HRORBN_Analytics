@@ -123,6 +123,16 @@ export default function UploadExam() {
     "state",
     "centre",
   ];
+   if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center min-vh-50">
+          <div className="text-center">
+            <Loading />
+            <h5 className="text-muted">Loading exams...</h5>
+          </div>
+        </div>
+      );
+    }
 
   return (
     <div className="animate-fade-in">

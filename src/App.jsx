@@ -9,12 +9,13 @@ import Results from "./pages/Results";
 import Analytics from "./pages/Analytics";
 import Upload from "./pages/Upload";
 import CompareExams from "./pages/CompareExam";
+import Loading from "./components/Loading";
 
 // 🔒 Protected Route
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <Loading />;
 
   if (!user) return <Navigate to="/login" />;
 
@@ -25,7 +26,7 @@ function ProtectedRoute({ children }) {
 function PublicRoute({ children }) {
   const { user, loading } = useAuth();
 
-  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (loading) return <Loading />;
 
   return user ? <Navigate to="/dashboard" /> : children;
 }

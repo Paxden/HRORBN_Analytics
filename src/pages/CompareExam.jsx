@@ -40,8 +40,9 @@ import {
   MdTrendingUp,
   MdTrendingDown,
 } from "react-icons/md";
-// #32803e #78a372
+import Loading from "../components/Loading";
 
+// #32803e #78a372
 
 export default function CompareExams() {
   const [exams, setExams] = useState([]);
@@ -134,11 +135,7 @@ export default function CompareExams() {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-50">
         <div className="text-center">
-          <FaSpinner
-            className="fa-spin mb-3"
-            size={48}
-            style={{ color: "#32803e" }}
-          />
+          <Loading />
           <h5 className="text-muted">Loading exams...</h5>
         </div>
       </div>
@@ -154,7 +151,6 @@ export default function CompareExams() {
             className="h2 fw-bold mb-0"
             style={{
               color: "#32803e",
-              
             }}
           >
             Compare Exams

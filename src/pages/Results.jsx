@@ -24,6 +24,7 @@ import {
   FaRegFileAlt,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
+import Loading from "../components/Loading";
 // #32803e #78a372
 
 
@@ -267,6 +268,17 @@ export default function Results() {
       </div>
     );
   }
+
+   if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center min-vh-50">
+          <div className="text-center">
+            <Loading />
+            <h5 className="text-muted">Loading exams...</h5>
+          </div>
+        </div>
+      );
+    }
 
   return (
     <div className="animate-fade-in">

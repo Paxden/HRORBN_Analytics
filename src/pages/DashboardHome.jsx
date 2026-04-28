@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import ScoreDistribution from "../components/ScoreDistribution";
+import Loading from "../components/Loading";
 // #78a372 #32803e
 
 
@@ -102,11 +103,7 @@ export default function DashboardHome() {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-50">
         <div className="text-center">
-          <FaSpinner
-            className="fa-spin mb-3"
-            size={48}
-            style={{ color: "#0d6efd" }}
-          />
+         <Loading />
           <h5 className="text-muted">Loading dashboard statistics...</h5>
         </div>
       </div>
