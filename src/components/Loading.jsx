@@ -1,6 +1,31 @@
+import { useState, useEffect } from "react";
 import Logo from "../assets/nmcn.jpeg";
 
 const Loading = () => {
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    const duration = 2000; // 2 seconds total
+    const interval = 20; // update every 20ms
+    const steps = duration / interval;
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      const newPercentage = Math.min(
+        Math.floor((currentStep / steps) * 100),
+        100,
+      );
+      setPercentage(newPercentage);
+
+      if (currentStep >= steps) {
+        clearInterval(timer);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="modern-loading">
       <div className="loading-card">
@@ -13,14 +38,17 @@ const Loading = () => {
 
         {/* Progress Bar */}
         <div className="progress-container">
-          <div className="progress-bar"></div>
+          <div
+            className="progress-bar"
+            style={{ width: `${percentage}%` }}
+          ></div>
         </div>
 
         {/* Loading Message */}
         <p className="loading-message">Preparing your experience...</p>
 
         {/* Percentage */}
-        <div className="percentage">85%</div>
+        <div className="percentage">{percentage}%</div>
       </div>
 
       <style jsx>{`
@@ -73,11 +101,10 @@ const Loading = () => {
         }
 
         .progress-bar {
-          width: 85%;
           height: 100%;
           background: linear-gradient(90deg, #78a372 0%, #32803e 100%);
           border-radius: 10px;
-          animation: loading 2s ease-in-out infinite;
+          transition: width 0.1s linear;
         }
 
         .loading-message {
@@ -102,21 +129,6 @@ const Loading = () => {
           50% {
             transform: scale(1.05);
             box-shadow: 0 0 0 10px rgba(50, 128, 62, 0);
-          }
-        }
-
-        @keyframes loading {
-          0% {
-            width: 0%;
-            opacity: 0.7;
-          }
-          50% {
-            width: 85%;
-            opacity: 1;
-          }
-          100% {
-            width: 100%;
-            opacity: 0.7;
           }
         }
       `}</style>

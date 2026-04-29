@@ -863,7 +863,7 @@ export default function Analytics() {
                 style={{ height: "30px", borderRadius: "0.75rem" }}
               >
                 <div
-                  className="progress-bar bg-gradient"
+                  className="progress-bar bg-success"
                   role="progressbar"
                   style={{ width: `${passRate}%` }}
                   aria-valuenow={passRate}
