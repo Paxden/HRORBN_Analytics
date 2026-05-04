@@ -33,6 +33,7 @@ import {
   FaExchangeAlt,
   FaStar,
   FaChartBar,
+  FaRegCaretSquareDown,
 } from "react-icons/fa";
 import {
   MdAnalytics,
@@ -144,38 +145,39 @@ export default function CompareExams() {
 
   return (
     <div className="animate-fade-in">
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div>
-          <h1
-            className="h2 fw-bold mb-0"
-            style={{
-              color: "#32803e",
-            }}
-          >
-            Compare Exams
-          </h1>
-          <h4>Nursing and Midwifery Council of Nigeria </h4>
-
-          <p className="text-muted mt-2">
-            Analyze and compare exam performance metrics
-          </p>
-        </div>
-
-        {data && (
-          <div className="d-flex gap-2">
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={() => window.print()}
-            >
-              <FaPrint className="me-1" size={14} /> Print
-            </button>
-            <button className="btn btn-outline-secondary btn-sm">
-              <FaDownload className="me-1" size={14} /> Export
-            </button>
-          </div>
-        )}
-      </div>
+        {/* Header */}
+            <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div>
+                <div className="d-flex gap-3 mb-2">
+                  <div
+                    className="rounded-circle d-flex mt-1 align-items-center justify-content-center"
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                      boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
+                    }}
+                  >
+                    <FaRegCaretSquareDown size={24} className="text-white" />
+                  </div>
+                  <div>
+                    <h1
+                      className="h2 fw-bold mb-0"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                      }}
+                    >
+                      Examination Comparision
+                    </h1>
+                    <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+                    <p className="text-muted mb-0">Compare examination results across different sessions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
       <div className="row g-4">
         {/* Left Panel - Exam Selection */}

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 // pages/dashboard/DashboardHome.jsx
 import { useEffect, useState } from "react";
@@ -18,23 +19,27 @@ import {
   FaUserGraduate,
   FaFileAlt,
   FaChartBar,
+  FaHome
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import ScoreDistribution from "../components/ScoreDistribution";
+import AnalyticsToggle from "../components/AnalyticsToggle";
+
 import Loading from "../components/Loading";
 // #78a372 #32803e
-
 
 export default function DashboardHome() {
   const { selectedExam } = useAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [scoreBands, setScoreBands] = useState([]);
 
   // Fetch stats when exam changes
   useEffect(() => {
     if (selectedExam?._id) {
       fetchStats();
+      fetchScoreBands();
     }
   }, [selectedExam]);
 
@@ -53,6 +58,18 @@ export default function DashboardHome() {
       setError(err.response?.data?.message || "Failed to load dashboard stats");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchScoreBands = async () => {
+    try {
+      const res = await api.get("/analytics/score-bands", {
+        params: { examId: selectedExam._id },
+      });
+
+      setScoreBands(res.data);
+    } catch (err) {
+      console.error("Score bands error:", err);
     }
   };
 
@@ -103,7 +120,7 @@ export default function DashboardHome() {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-50">
         <div className="text-center">
-         <Loading />
+          <Loading />
           <h5 className="text-muted">Loading dashboard statistics...</h5>
         </div>
       </div>
@@ -212,29 +229,35 @@ export default function DashboardHome() {
   return (
     <div className="animate-fade-in">
       {/* Header */}
-      <div className="mb-4">
-        <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h1
-              className="h2 fw-bold mb-0"
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+          <div className="d-flex gap-3 mb-2">
+            <div
+              className="rounded-circle d-flex mt-1 align-items-center justify-content-center"
               style={{
-                color: "#32803e",
+                width: "48px",
+                height: "48px",
+                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
               }}
             >
-              Dashboard Overview
-            </h1>
-            <h4>Nursing and Midwifery Council of Nigeria </h4>
-            <p className="text-muted mt-2">
-              Viewing statistics for:{" "}
-              <strong className="text-success">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
-            </p>
-          </div>
-
-          <div className="d-flex align-items-center gap-2">
-            <FaCalendarAlt className="text-muted" />
-            <small className="text-muted">
-              Last updated: {new Date().toLocaleDateString()}
-            </small>
+              <FaHome size={24} className="text-white" />
+            </div>
+            <div>
+              <h1
+                className="h2 fw-bold mb-0"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Dashboard
+              </h1>
+              <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+              <p className="text-muted mb-0">{selectedExam.title}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -327,12 +350,14 @@ export default function DashboardHome() {
         {/* Score Distribution Chart */}
         <div className="">
           <ScoreDistribution
-            data={scoreData}
+            examId={selectedExam?._id}
             title="Exam Score Distribution"
             showStats={true}
           />
         </div>
       </div>
+
+      <AnalyticsToggle selectedExam={selectedExam} />
 
       {/* Custom CSS */}
       <style>{`

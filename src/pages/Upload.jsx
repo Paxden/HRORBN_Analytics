@@ -20,7 +20,6 @@ import {
 import { MdAnalytics, MdVerified } from "react-icons/md";
 // #32803e #78a372
 
-
 export default function UploadExam() {
   const { setSelectedExam } = useAuth();
   const navigate = useNavigate();
@@ -123,36 +122,54 @@ export default function UploadExam() {
     "state",
     "centre",
   ];
-   if (loading) {
-      return (
-        <div className="d-flex justify-content-center align-items-center min-vh-50">
-          <div className="text-center">
-            <Loading />
-            <h5 className="text-muted">Loading exams...</h5>
-          </div>
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-50">
+        <div className="text-center">
+          <Loading />
+          <h5 className="text-muted">Loading exams...</h5>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
   return (
     <div className="animate-fade-in">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <h1
-            className="h2 fw-bold mb-0"
-            style={{
-              color: "#32803e",
-             
-            }}
-          >
-            Upload New Exam
-          </h1>
-          <h4>Nursing and Midwifery Council of Nigeria </h4>
-
-          <p className="text-muted mt-2">
-            Upload exam data in CSV format to start analyzing results
-          </p>
+          <div className="d-flex gap-3 mb-2">
+            <div
+              className="rounded-circle d-flex mt-1 align-items-center justify-content-center"
+              style={{
+                width: "48px",
+                height: "48px",
+                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
+              }}
+            >
+              <FaCloudUploadAlt size={24} className="text-white" />
+            </div>
+            <div>
+              <h1
+                className="h2 fw-bold mb-0"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Upload
+              </h1>
+              <h5 className="m-0p-0">
+                Nursing and Midwifery Council of Nigeria{" "}
+              </h5>
+              <p className="text-muted mt-2">
+                Upload exam data in CSV format to start analyzing results
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 

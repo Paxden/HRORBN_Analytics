@@ -36,9 +36,10 @@ import {
   FaPercentage,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
+import ScoreDistribution from "../components/ScoreDistribution";
+import TopSchoolsAndCandidates from "../components/TopSchoolsAnd Candidate";
 import Loading from "../components/Loading";
 // #32803e #78a372
-
 
 export default function Analytics() {
   const { selectedExam } = useAuth();
@@ -64,7 +65,8 @@ export default function Analytics() {
       const data = res.data;
       const totalCandidates = data.totalCandidates || 0;
       const passCount = data.passCount || 0;
-      const passRate = totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
+      const passRate =
+        totalCandidates > 0 ? (passCount / totalCandidates) * 100 : 0;
 
       const analyticsData = {
         totalCandidates: totalCandidates,
@@ -145,7 +147,7 @@ export default function Analytics() {
     return (
       <div className="d-flex justify-content-center align-items-center min-vh-50">
         <div className="text-center">
-          <Loading/>
+          <Loading />
           <h5 className="text-muted">Loading analytics data...</h5>
         </div>
       </div>
@@ -243,45 +245,41 @@ export default function Analytics() {
     },
   ];
 
-
-
   return (
     <div className="animate-fade-in">
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div>
-          <h1
-            className="h2 fw-bold mb-0"
-            style={{
-              background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Analytics Dashboard
-          </h1>
-         <h4>Nursing and Midwifery Council of Nigeria </h4>
-            <p className="text-muted mt-2">
-              Performance Analytics for:{" "}
-              <strong className="text-success">{selectedExam.title} CBT and CAOSCE Result Dashboard</strong>
-            </p>
-        </div>
-
-        <div className="d-flex gap-2">
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={exportReport}
-          >
-            <FaDownload className="me-1" size={14} /> Export Report
-          </button>
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={() => window.print()}
-          >
-            <FaPrint className="me-1" size={14} /> Print
-          </button>
-        </div>
-      </div>
+     {/* Header */}
+         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+           <div>
+             <div className="d-flex gap-3 mb-2">
+               <div
+                 className="rounded-circle d-flex mt-1 align-items-center justify-content-center"
+                 style={{
+                   width: "48px",
+                   height: "48px",
+                   background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                   boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
+                 }}
+               >
+                 <FaCalendarAlt size={24} className="text-white" />
+               </div>
+               <div>
+                 <h1
+                   className="h2 fw-bold mb-0"
+                   style={{
+                     background:
+                       "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                     WebkitBackgroundClip: "text",
+                     WebkitTextFillColor: "transparent",
+                   }}
+                 >
+                    Analytics
+                 </h1>
+                 <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+                 <p className="text-muted mb-0">{selectedExam.title}</p>
+               </div>
+             </div>
+           </div>
+         </div>
 
       {/* Main Stats Row */}
       <div className="row g-3 mb-4">
@@ -326,7 +324,6 @@ export default function Analytics() {
           </div>
         ))}
       </div>
-
 
       {/* Charts Row */}
       <div className="row g-4 mb-4">
@@ -526,320 +523,17 @@ export default function Analytics() {
 
         {/* Score Distribution Chart */}
         <div className="col-md-7">
-          <div
-            className="card border-0 shadow-sm"
-            style={{ borderRadius: "1rem", overflow: "hidden" }}
-          >
-            <div className="card-header bg-white border-0 pt-4 px-4">
-              <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div className="d-flex align-items-center gap-2">
-                  <div
-                    className="bg-gradient-success rounded-3 p-2"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
-                    }}
-                  >
-                    <FaChartBar className="text-white" size={18} />
-                  </div>
-                  <div>
-                    <h5 className="fw-bold mb-0">Score Distribution</h5>
-                    <small className="text-muted">
-                      Score range frequency analysis
-                    </small>
-                  </div>
-                </div>
-
-                {/* Stats Summary */}
-                {scoreDistribution.length > 0 && (
-                  <div className="d-flex gap-3">
-                    <div className="text-end">
-                      <small className="text-muted d-block">
-                        Total Students
-                      </small>
-                      <span className="fw-bold text-success">
-                        {scoreDistribution.reduce(
-                          (sum, item) => sum + (item.count || 0),
-                          0
-                        )}
-                      </span>
-                    </div>
-                    <div className="text-end">
-                      <small className="text-muted d-block">Score Range</small>
-                      <span className="fw-bold text-info">
-                        {scoreDistribution[0]?.range?.split("-")[0]} -{" "}
-                        {scoreDistribution[scoreDistribution.length - 1]?.range?.split("-")[1]}
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="card-body p-4">
-              {scoreDistribution.length === 0 ? (
-                <div className="text-center py-5">
-                  <div
-                    className="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
-                    style={{ width: "80px", height: "80px" }}
-                  >
-                    <FaChartBar size={40} className="text-muted opacity-50" />
-                  </div>
-                  <h6 className="fw-semibold mb-1">No Data Available</h6>
-                  <p className="text-muted small mb-0">
-                    Score distribution data will appear here once available
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <ResponsiveContainer width="100%" height={320}>
-                    <BarChart
-                      data={scoreDistribution}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                      barCategoryGap="15%"
-                      barGap={2}
-                    >
-                      <defs>
-                        <linearGradient
-                          id="barGradient"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop offset="0%" stopColor="#32803e" />
-                          <stop offset="100%" stopColor="#78a372" />
-                        </linearGradient>
-                        <filter
-                          id="shadow"
-                          x="-5%"
-                          y="-5%"
-                          width="110%"
-                          height="110%"
-                        >
-                          <feDropShadow
-                            dx="0"
-                            dy="2"
-                            stdDeviation="3"
-                            floodOpacity="0.1"
-                          />
-                        </filter>
-                      </defs>
-                      <CartesianGrid
-                        strokeDasharray="3 3"
-                        stroke="#e9ecef"
-                        vertical={false}
-                      />
-                      <XAxis
-                        dataKey="range"
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{
-                          fill: "#6c757d",
-                          fontSize: 12,
-                          fontWeight: 500,
-                        }}
-                        dy={10}
-                      />
-                      <YAxis
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fill: "#6c757d", fontSize: 12 }}
-                        label={{
-                          value: "Number of Students",
-                          angle: -90,
-                          position: "insideLeft",
-                          style: {
-                            fill: "#6c757d",
-                            fontSize: 12,
-                            fontWeight: 500,
-                          },
-                          dx: -20,
-                        }}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          borderRadius: "0.75rem",
-                          border: "none",
-                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                          padding: "12px 16px",
-                          fontSize: "13px",
-                        }}
-                        cursor={{ fill: "rgba(102, 126, 234, 0.05)" }}
-                        formatter={(value, name) => [value, "Students"]}
-                        labelFormatter={(label) => `Score Range: ${label}`}
-                      />
-                      <Bar
-                        dataKey="count"
-                        fill="url(#barGradient)"
-                        radius={[8, 8, 0, 0]}
-                        maxBarSize={60}
-                        animationDuration={1500}
-                        animationEasing="ease-in-out"
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-
-                  {/* Additional Stats Insights */}
-                  <div className="row g-3 mt-3 pt-2 border-top">
-                    <div className="col-4">
-                      <div className="text-center">
-                        <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
-                          <FaTrophy size={14} className="text-warning" />
-                          <small className="text-muted">Highest Range</small>
-                        </div>
-                        <p className="fw-bold mb-0 text-success">
-                          {scoreDistribution.reduce(
-                            (max, item) =>
-                              (item.count || 0) > (max.count || 0) ? item : max,
-                            scoreDistribution[0]
-                          )?.range || "N/A"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-4">
-                      <div className="text-center">
-                        <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
-                          <FaChartLine size={14} className="text-info" />
-                          <small className="text-muted">Peak Performance</small>
-                        </div>
-                        <p className="fw-bold mb-0 text-info">
-                          {Math.max(
-                            ...scoreDistribution.map((item) => item.count || 0)
-                          )}{" "}
-                          students
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-4">
-                      <div className="text-center">
-                        <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
-                          <MdAnalytics size={14} className="text-success" />
-                          <small className="text-muted">Distribution</small>
-                        </div>
-                        <p className="fw-bold mb-0 text-success">
-                          {scoreDistribution.length} ranges
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+          {" "}
+          <ScoreDistribution
+            examId={selectedExam?._id}
+            title="Exam Score Distribution"
+            showStats={true}
+          />
         </div>
       </div>
 
-      {/* Performance Tables - Top Schools and Top Candidates only */}
-      <div className="row g-4">
-        {/* Top Schools */}
-        <div className="col-md-6">
-          <div
-            className="card border-0 shadow-sm"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-header bg-white border-0 pt-4 px-4">
-              <div className="d-flex align-items-center gap-2">
-                <FaSchool className="text-success" size={18} />
-                <h5 className="fw-bold mb-0">Top Performing Schools</h5>
-              </div>
-            </div>
-            <div className="card-body p-4">
-              {topSchools.length === 0 ? (
-                <div className="text-center py-4 text-muted">
-                  <FaSchool size={32} className="mb-2 opacity-25" />
-                  <p className="mb-0 small">No data available</p>
-                </div>
-              ) : (
-                <div className="vstack gap-2">
-                  {topSchools.map((s, i) => {
-                    const scoreValue = formatValue(s.avgScore || s.score || 0);
-                    return (
-                      <div
-                        key={i}
-                        className="d-flex justify-content-between align-items-center p-2 bg-light rounded-3"
-                      >
-                        <div>
-                          <span className="fw-bold me-2">{i + 1}.</span>
-                          <span>{s.school || s.name || "Unknown"}</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                          <div
-                            className="progress"
-                            style={{ width: "100px", height: "6px" }}
-                          >
-                            <div
-                              className="progress-bar bg-info"
-                              style={{ width: `${scoreValue}%` }}
-                            />
-                          </div>
-                          <span className="fw-semibold text-info">
-                            {scoreValue.toFixed(1)}%
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Top Candidates */}
-        <div className="col-md-6">
-          <div
-            className="card border-0 shadow-sm"
-            style={{ borderRadius: "1rem" }}
-          >
-            <div className="card-header bg-white border-0 pt-4 px-4">
-              <div className="d-flex align-items-center gap-2">
-                <FaUserGraduate className="text-warning" size={18} />
-                <h5 className="fw-bold mb-0">Top Performing Candidates</h5>
-              </div>
-            </div>
-            <div className="card-body p-4">
-              {topCandidates.length === 0 ? (
-                <div className="text-center py-4 text-muted">
-                  <FaUserGraduate size={32} className="mb-2 opacity-25" />
-                  <p className="mb-0 small">No data available</p>
-                </div>
-              ) : (
-                <div className="vstack gap-2">
-                  {topCandidates.map((c, i) => {
-                    const scoreValue = formatValue(c.score);
-                    return (
-                      <div
-                        key={i}
-                        className="d-flex justify-content-between align-items-center p-2 bg-light rounded-3"
-                      >
-                        <div>
-                          <span className="fw-bold me-2">{i + 1}.</span>
-                          <span>{c.name || c.candidateName || "Unknown"}</span>
-                        </div>
-                        <div className="d-flex align-items-center gap-2">
-                          <span
-                            className={`fw-bold text-${getScoreColor(scoreValue)}`}
-                          >
-                            {scoreValue.toFixed(1)}%
-                          </span>
-                          {scoreValue >= 70 ? (
-                            <FaArrowUp className="text-success" size={12} />
-                          ) : scoreValue >= 50 ? (
-                            <FaChartLine className="text-warning" size={12} />
-                          ) : (
-                            <FaArrowDown className="text-danger" size={12} />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Top Schools and Candidates */}
+      <TopSchoolsAndCandidates selectedExam={selectedExam} />
 
       {/* Overall Pass Rate Progress Bar */}
       <div className="row mt-4">
