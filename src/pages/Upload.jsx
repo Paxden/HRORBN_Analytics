@@ -18,6 +18,7 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import { MdAnalytics, MdVerified } from "react-icons/md";
+import Loading from "../components/Loading";
 // #32803e #78a372
 
 export default function UploadExam() {

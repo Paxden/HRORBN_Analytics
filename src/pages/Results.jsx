@@ -560,7 +560,7 @@ export default function Results() {
                     Candidate Name
                   </th>
                   <th className="py-3 px-4" style={{ color: "#32803e" }}>
-                    Reg Number
+                    Exam Number
                   </th>
                   <th className="py-3 px-4" style={{ color: "#32803e" }}>
                     Programme
@@ -645,7 +645,10 @@ export default function Results() {
                         <span className="small">{r.programme}</span>
                       </td>
                       <td className="py-3 px-4">
-                        <small>{r.school?.split(",")[0]}</small>
+                        {/* <small>{r.school?.split(",")[0]}</small> */}
+                        <small>{r.school.length > 50
+                                    ? r.school.substring(0, 20) + "..."
+                                    : r.school}</small>
                       </td>
                       <td className="py-3 px-4">
                         <div className="d-flex flex-column">
