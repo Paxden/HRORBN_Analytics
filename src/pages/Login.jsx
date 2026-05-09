@@ -93,7 +93,7 @@ export default function Login() {
                       textShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
                     }}
                   >
-                    NMCN Analytics
+                    HRORBN Analytics
                   </h2>
                   <p className="text-muted small">
                     Sign in to continue to  dashboard

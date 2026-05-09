@@ -234,7 +234,7 @@ export default function UploadExam() {
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="e.g., NMCN May 2026 Examination"
+                    placeholder="e.g., HRORBN May 2026 Examination"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     disabled={loading}
