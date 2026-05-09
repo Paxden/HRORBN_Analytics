@@ -39,7 +39,9 @@ import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import ScoreDistribution from "../components/ScoreDistribution";
 import TopSchoolsAndCandidates from "../components/TopSchoolsAnd Candidate";
 import Loading from "../components/Loading";
-// #32803e #78a372
+// #7e796c #6c757d
+// #7e796c #6c757d
+
 
 export default function Analytics() {
   const { selectedExam } = useAuth();
@@ -256,7 +258,7 @@ export default function Analytics() {
                  style={{
                    width: "48px",
                    height: "48px",
-                   background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                   background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                    boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
                  }}
                >
@@ -267,14 +269,14 @@ export default function Analytics() {
                    className="h2 fw-bold mb-0"
                    style={{
                      background:
-                       "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                       "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                      WebkitBackgroundClip: "text",
                      WebkitTextFillColor: "transparent",
                    }}
                  >
                     Analytics
                  </h1>
-                 <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+                 <h5 className="m-0p-0">Health Records Organization Registration Board of Nigeria </h5>
                  <p className="text-muted mb-0">{selectedExam.title}</p>
                </div>
              </div>
@@ -340,7 +342,7 @@ export default function Analytics() {
                     className="bg-gradient-success rounded-3 p-2"
                     style={{
                       background:
-                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                        "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                     }}
                   >
                     <FaChartLine className="text-white" size={18} />
@@ -637,7 +639,7 @@ export default function Analytics() {
         }
 
         .bg-gradient-success {
-          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
+          background: linear-gradient(135deg, #7e796c 0%, #6c757d 100%);
         }
 
         .recharts-bar-rectangle:hover {

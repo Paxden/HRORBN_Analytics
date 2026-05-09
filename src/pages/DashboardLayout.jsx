@@ -21,10 +21,12 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { MdAnalytics, MdCompare } from "react-icons/md";
-import Logo from "../assets/nmcn.jpeg";
+import Logo from "../assets/hr.jpeg";
 import { Image } from "react-bootstrap";
 
-// #78a372 #32803e
+
+// #7e796c #6c757d
+
 
 export default function DashboardLayout() {
   const { user, logout, selectedExam, setSelectedExam } = useAuth();
@@ -156,7 +158,7 @@ export default function DashboardLayout() {
             {(!sidebarCollapsed || isMobile) && (
               <div className="d-flex gap-2 align-items-center gx-2">
                 <div
-                  className="bg-success rounded-3 p-2 d-flex align-items-center justify-content-center"
+                  className="bg-secondary rounded-3 p-2 d-flex align-items-center justify-content-center"
                   style={{ width: "40px", height: "40px" }}
                 >
                   <Image src={Logo} width="50px" alt="NMCN SaaS" />
@@ -208,7 +210,7 @@ export default function DashboardLayout() {
                   className={({ isActive }) =>
                     `d-flex align-items-center gap-3 px-3 py-2 rounded-3 mb-1 text-decoration-none transition-all ${
                       isActive
-                        ? "bg-success text-white shadow-sm"
+                        ? "bg-secondary text-white shadow-sm"
                         : "text-dark hover-bg-light"
                     }`
                   }
@@ -262,7 +264,7 @@ export default function DashboardLayout() {
               {/* Exam Selector */}
               <div className="d-flex align-items-center gap-2">
                 <button
-                  className="d-flex align-items-center btn btn-outline-success btn-sm"
+                  className="d-flex align-items-center btn btn-outline-secondary btn-sm"
                   onClick={() => setShowModal(true)}
                   style={{ borderRadius: "0.5rem" }}
                 >
@@ -277,7 +279,7 @@ export default function DashboardLayout() {
                   data-bs-toggle="dropdown"
                 >
                   <div
-                    className="bg-success rounded-circle d-flex align-items-center justify-content-center"
+                    className="bg-secondary rounded-circle d-flex align-items-center justify-content-center"
                     style={{ width: "36px", height: "36px" }}
                   >
                     <FaUserCircle className="text-white" size={20} />
@@ -342,7 +344,7 @@ export default function DashboardLayout() {
                       </p>
                       <button
                         onClick={() => setShowModal(true)}
-                        className="btn btn-success px-4"
+                        className="btn btn-secondary px-4"
                         style={{ borderRadius: "0.75rem" }}
                       >
                         Select Exam
@@ -389,7 +391,7 @@ export default function DashboardLayout() {
         }
 
         .hover-bg-light.active {
-          background-color: #32803e;
+          background-color: #6c757d;
           color: white;
         }
 
@@ -413,18 +415,18 @@ export default function DashboardLayout() {
         }
 
         ::-webkit-scrollbar-thumb {
-          background: #32803e;
+          background: #6c757d;
           border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-          background: #32803e;
+          background: #6c757d;
         }
 
         .form-control:focus,
         .form-select:focus {
           box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-          border-color: #32803e;
+          border-color: #6c757d;
         }
 
         @keyframes spin {

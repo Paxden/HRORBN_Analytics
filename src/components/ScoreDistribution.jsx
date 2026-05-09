@@ -13,6 +13,8 @@ import {
 import { FaChartBar, FaTrophy, FaChartLine, FaSpinner } from "react-icons/fa";
 import { MdAnalytics } from "react-icons/md";
 import api from "../api/Auth";
+// #7e796c #6c757d
+
 
 export default function ScoreDistribution({
   examId,
@@ -186,7 +188,7 @@ export default function ScoreDistribution({
             <div
               className="bg-gradient-success rounded-3 p-2"
               style={{
-                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                background: "linear-gradient(135deg, #6c757d 0%, #7e796c 100%)",
               }}
             >
               <FaChartBar className="text-white" size={18} />
@@ -244,8 +246,8 @@ export default function ScoreDistribution({
               >
                 <defs>
                   <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#32803e" />
-                    <stop offset="100%" stopColor="#78a372" />
+                    <stop offset="0%" stopColor="#6c757d" />
+                    <stop offset="100%" stopColor="#7e796c" />
                   </linearGradient>
                   <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
                     <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.1" />
@@ -322,10 +324,10 @@ export default function ScoreDistribution({
                 <div className="col-4">
                   <div className="text-center">
                     <div className="d-flex align-items-center justify-content-center gap-1 mb-1">
-                      <FaChartLine size={14} className="text-info" />
+                      <FaChartLine size={14} className="text-warning" />
                       <small className="text-muted">Peak Performance</small>
                     </div>
-                    <p className="fw-bold mb-0 text-info">
+                    <p className="fw-bold mb-0 text-warning">
                       {getPeakPerformance()} students
                     </p>
                   </div>
@@ -349,7 +351,7 @@ export default function ScoreDistribution({
 
       <style>{`
         .bg-gradient-primary {
-          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
+          background: linear-gradient(135deg, #6c757d 0%, #7e796c 100%);
         }
         
         .recharts-bar-rectangle:hover {

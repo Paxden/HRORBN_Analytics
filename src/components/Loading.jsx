@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import Logo from "../assets/nmcn.jpeg";
+import Logo from "../assets/hr.jpeg";
+// #7e796c #6c757d
+
 
 const Loading = () => {
   const [percentage, setPercentage] = useState(0);
@@ -77,7 +79,7 @@ const Loading = () => {
           width: 100px;
           height: 100px;
           margin: 0 auto;
-          border: 3px solid #78a372;
+          border: 3px solid #;
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -102,19 +104,19 @@ const Loading = () => {
 
         .progress-bar {
           height: 100%;
-          background: linear-gradient(90deg, #78a372 0%, #32803e 100%);
+          background: linear-gradient(90deg, #7e796c 0%, #6c757d 100%);
           border-radius: 10px;
           transition: width 0.1s linear;
         }
 
         .loading-message {
-          color: #78a372;
+          color: #6c757d;
           font-size: 0.9rem;
           margin: 1rem 0;
         }
 
         .percentage {
-          color: #32803e;
+          color: #6c757d;
           font-size: 1.5rem;
           font-weight: bold;
           font-family: monospace;

@@ -43,7 +43,9 @@ import {
 } from "react-icons/md";
 import Loading from "../components/Loading";
 
-// #32803e #78a372
+// #7e796c #6c757d
+// #7e796c #6c757d
+
 
 export default function CompareExams() {
   const [exams, setExams] = useState([]);
@@ -154,7 +156,7 @@ export default function CompareExams() {
                     style={{
                       width: "48px",
                       height: "48px",
-                      background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                      background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                       boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
                     }}
                   >
@@ -165,14 +167,14 @@ export default function CompareExams() {
                       className="h2 fw-bold mb-0"
                       style={{
                         background:
-                          "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                          "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                       }}
                     >
                       Examination Comparision
                     </h1>
-                    <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+                    <h5 className="m-0p-0">Health Records Organization Registration Board of Nigeria </h5>
                     <p className="text-muted mb-0">Compare examination results across different sessions</p>
                   </div>
                 </div>
@@ -192,7 +194,7 @@ export default function CompareExams() {
                   className="bg-gradient-success rounded-3 p-2"
                   style={{
                     background:
-                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                      "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                   }}
                 >
                   <MdCompare className="text-white" size={18} />
@@ -367,8 +369,8 @@ export default function CompareExams() {
                           x2="0"
                           y2="1"
                         >
-                          <stop offset="0%" stopColor="#32803e" />
-                          <stop offset="100%" stopColor="#78a372" />
+                          <stop offset="0%" stopColor="#7e796c" />
+                          <stop offset="100%" stopColor="#6c757d" />
                         </linearGradient>
                       </defs>
                       <CartesianGrid
@@ -685,11 +687,11 @@ export default function CompareExams() {
         }
 
         .bg-gradient-success {
-          background: linear-gradient(135deg, #32803e 0%, #78a372 100%);
+          background: linear-gradient(135deg, #7e796c 0%, #6c757d 100%);
         }
 
         .bg-gradient {
-          background: linear-gradient(90deg, #32803e 0%, #78a372 100%);
+          background: linear-gradient(90deg, #7e796c 0%, #6c757d 100%);
         }
 
         .form-check {

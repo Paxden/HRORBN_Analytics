@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import api from "../api/Auth";
 import {
@@ -7,21 +8,21 @@ import {
   FaTrophy,
   FaUsers,
   FaGraduationCap,
-  FaArrowUp,
-  FaArrowDown,
   FaCheckCircle,
   FaTimesCircle,
-  FaUserGraduate,
-  FaMapMarkerAlt,
   FaPercentage,
   FaStar,
+  FaChartLine,
 } from "react-icons/fa";
-import { MdAnalytics, MdTrendingUp, MdClose } from "react-icons/md";
+import { MdAnalytics, MdTrendingUp } from "react-icons/md";
+// #7e796c #6c757d
+// #6c757d
+
 
 const AnalyticsToggle = ({ selectedExam }) => {
-  const [view, setView] = useState("schools");
+  const [view, setView] = useState("departments");
   const [loading, setLoading] = useState(false);
-  const [schools, setSchools] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [programmes, setProgrammes] = useState(null);
 
   // ==============================
@@ -34,11 +35,11 @@ const AnalyticsToggle = ({ selectedExam }) => {
       try {
         setLoading(true);
 
-        if (view === "schools") {
+        if (view === "departments") {
           const res = await api.get(
-            `/analytics/top-10-schools?examId=${selectedExam._id}`,
+            `/analytics/top-10-departments?examId=${selectedExam._id}`,
           );
-          setSchools(res.data.data || []);
+          setDepartments(res.data.departments || []);
         }
 
         if (view === "programmes") {
@@ -76,8 +77,8 @@ const AnalyticsToggle = ({ selectedExam }) => {
   // Get performance color
   const getPerformanceColor = (score) => {
     const num = parseFloat(score);
-    if (num >= 70) return "#78a372";
-    if (num >= 50) return "#32803e";
+    if (num >= 70) return "#7e796c";
+    if (num >= 50) return "#6c757d";
     return "#dc3545";
   };
 
@@ -100,33 +101,38 @@ const AnalyticsToggle = ({ selectedExam }) => {
   };
 
   // Modal states
-  const [selectedSchool, setSelectedSchool] = useState(null);
-  const [schoolDetails, setSchoolDetails] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [departmentDetails, setDepartmentDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
 
   const [selectedProgramme, setSelectedProgramme] = useState(null);
   const [programmeDetails, setProgrammeDetails] = useState(null);
   const [loadingProgramme, setLoadingProgramme] = useState(false);
 
-  const handleOpenSchool = async (schoolName) => {
+  // ==============================
+  // 📊 DEPARTMENT HANDLERS
+  // ==============================
+  const handleOpenDepartment = async (departmentName) => {
     try {
-      setSelectedSchool(schoolName);
+      setSelectedDepartment(departmentName);
       setLoadingDetails(true);
 
       const res = await api.get(
-        `/analytics/school-details?examId=${selectedExam._id}&school=${encodeURIComponent(
-          schoolName,
-        )}`,
+        `/analytics/department-details?examId=${selectedExam._id}&department=${encodeURIComponent(departmentName)}`,
       );
 
-      setSchoolDetails(res.data);
+      setDepartmentDetails(res.data.department);
     } catch (err) {
-      console.error("School details error:", err);
+      console.error("Department details error:", err);
+      setDepartmentDetails(null);
     } finally {
       setLoadingDetails(false);
     }
   };
 
+  // ==============================
+  // 📘 PROGRAMME HANDLERS
+  // ==============================
   const handleOpenProgramme = async (programme) => {
     try {
       setSelectedProgramme(programme);
@@ -136,9 +142,10 @@ const AnalyticsToggle = ({ selectedExam }) => {
         `/analytics/programme-details?examId=${selectedExam._id}&programme=${encodeURIComponent(programme)}`,
       );
 
-      setProgrammeDetails(res.data);
+      setProgrammeDetails(res.data.programme);
     } catch (err) {
       console.error("Programme details error:", err);
+      setProgrammeDetails(null);
     } finally {
       setLoadingProgramme(false);
     }
@@ -157,7 +164,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
             style={{
               width: "48px",
               height: "48px",
-              background: "linear-gradient(135deg, #78a372 0%, #32803e 100%)",
+              background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
               boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
             }}
           >
@@ -174,7 +181,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
         </div>
       </div>
 
-      {/* Right Column - Toggle Views */}
+      {/* Main Content */}
       <div className="col-12">
         <div
           className="card border-0 shadow-sm"
@@ -184,38 +191,40 @@ const AnalyticsToggle = ({ selectedExam }) => {
           <div
             className="card-header border-0 p-4"
             style={{
-              background: "linear-gradient(135deg, #78a372 0%, #32803e 100%)",
+              background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
             }}
           >
             <div className="d-flex gap-3">
               <button
-                className={`${getBtnClass("schools")} d-flex align-items-center gap-2`}
-                onClick={() => setView("schools")}
+                className="d-flex align-items-center gap-2"
+                onClick={() => setView("departments")}
                 style={{
                   background:
-                    view === "schools" ? "white" : "rgba(255, 255, 255, 0.2)",
-                  color: view === "schools" ? "#32803e" : "white",
+                    view === "departments" ? "white" : "rgba(255, 255, 255, 0.2)",
+                  color: view === "departments" ? "#6c757d" : "white",
                   border: "none",
                   borderRadius: "0.5rem",
                   padding: "8px 20px",
+                  transition: "all 0.3s ease",
                 }}
               >
                 <FaSchool size={16} />
-                Top Schools
+                Top Departments
               </button>
 
               <button
-                className={`${getBtnClass("programmes")} d-flex align-items-center gap-2`}
+                className="d-flex align-items-center gap-2"
                 onClick={() => setView("programmes")}
                 style={{
                   background:
                     view === "programmes"
                       ? "white"
                       : "rgba(255, 255, 255, 0.2)",
-                  color: view === "programmes" ? "#32803e" : "white",
+                  color: view === "programmes" ? "#6c757d" : "white",
                   border: "none",
                   borderRadius: "0.5rem",
                   padding: "8px 20px",
+                  transition: "all 0.3s ease",
                 }}
               >
                 <FaGraduationCap size={16} />
@@ -231,21 +240,21 @@ const AnalyticsToggle = ({ selectedExam }) => {
                 <FaSpinner
                   className="fa-spin mb-3"
                   size={40}
-                  style={{ color: "#78a372" }}
+                  style={{ color: "#7e796c" }}
                 />
                 <p className="text-muted">Loading analytics data...</p>
               </div>
             )}
 
             {/* ============================== */}
-            {/* 🏫 TOP SCHOOLS */}
+            {/* 🏫 TOP DEPARTMENTS */}
             {/* ============================== */}
-            {!loading && view === "schools" && (
+            {!loading && view === "departments" && (
               <div>
                 <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
                   <div>
                     <h4 className="fw-bold mb-0" style={{ color: "#2c3e2f" }}>
-                      Top Performing Schools
+                      Top Performing Departments
                     </h4>
                     <small className="text-muted">Based on pass rates</small>
                   </div>
@@ -257,22 +266,22 @@ const AnalyticsToggle = ({ selectedExam }) => {
                       background: "rgba(120, 163, 114, 0.1)",
                     }}
                   >
-                    <FaTrophy style={{ color: "#32803e" }} size={20} />
+                    <FaTrophy style={{ color: "#6c757d" }} size={20} />
                   </div>
                 </div>
 
-                {schools.length === 0 ? (
+                {departments.length === 0 ? (
                   <div className="text-center py-5">
                     <FaSchool
                       size={48}
                       className="text-muted opacity-25 mb-3"
                     />
-                    <p className="text-muted mb-0">No school data available</p>
+                    <p className="text-muted mb-0">No department data available</p>
                   </div>
                 ) : (
                   <div className="vstack gap-3">
-                    {schools.map((s, i) => {
-                      const performance = getPerformanceBadge(s.passRate);
+                    {departments.map((dept, i) => {
+                      const performance = getPerformanceBadge(dept.passRate);
                       return (
                         <div
                           key={i}
@@ -287,14 +296,14 @@ const AnalyticsToggle = ({ selectedExam }) => {
                             e.currentTarget.style.transform = "translateX(5px)";
                             e.currentTarget.style.boxShadow =
                               "0 4px 12px rgba(50, 128, 62, 0.1)";
-                            e.currentTarget.style.borderColor = "#78a372";
+                            e.currentTarget.style.borderColor = "#7e796c";
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = "translateX(0)";
                             e.currentTarget.style.boxShadow = "none";
                             e.currentTarget.style.borderColor = "#e9ecef";
                           }}
-                          onClick={() => handleOpenSchool(s.school)}
+                          onClick={() => handleOpenDepartment(dept.department)}
                         >
                           <div className="d-flex justify-content-between align-items-start mb-2">
                             <div className="d-flex align-items-center gap-3">
@@ -305,7 +314,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                                   height: "40px",
                                   background:
                                     i < 3
-                                      ? "linear-gradient(135deg, #78a372 0%, #32803e 100%)"
+                                      ? "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)"
                                       : "#f8f9fa",
                                   color: i < 3 ? "white" : "#6c757d",
                                   fontSize: i < 3 ? "14px" : "16px",
@@ -314,18 +323,18 @@ const AnalyticsToggle = ({ selectedExam }) => {
                                 {i < 3 ? <FaStar size={16} /> : i + 1}
                               </div>
                               <div>
-                                <h6
+                                <h5
                                   className="fw-semibold mb-1"
                                   style={{ color: "#2c3e2f" }}
                                 >
-                                  {s.school.length > 50
-                                    ? s.school.substring(0, 50) + "..."
-                                    : s.school}
-                                </h6>
+                                  {dept.department.length > 50
+                                    ? dept.department.substring(0, 50) + "..."
+                                    : dept.department}
+                                </h5>
                                 <div className="d-flex align-items-center gap-3">
                                   <small className="text-muted d-flex align-items-center gap-1">
                                     <FaUsers size={12} />
-                                    {s.totalStudents} students
+                                    {dept.totalCandidates} candidates
                                   </small>
                                   <small
                                     className="px-2 py-1 rounded"
@@ -345,14 +354,15 @@ const AnalyticsToggle = ({ selectedExam }) => {
                               <div
                                 className="fw-bold fs-4"
                                 style={{
-                                  color: getPerformanceColor(s.passRate),
+                                  color: getPerformanceColor(dept.passRate),
                                 }}
                               >
-                                {formatScore(s.passRate)}%
+                                {formatScore(dept.passRate)}%
                               </div>
                               <small className="text-muted">Pass Rate</small>
                             </div>
                           </div>
+                         
                         </div>
                       );
                     })}
@@ -383,7 +393,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                       background: "rgba(120, 163, 114, 0.1)",
                     }}
                   >
-                    <FaChartBar style={{ color: "#32803e" }} size={20} />
+                    <FaChartBar style={{ color: "#6c757d" }} size={20} />
                   </div>
                 </div>
 
@@ -399,11 +409,11 @@ const AnalyticsToggle = ({ selectedExam }) => {
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
-                      <MdAnalytics style={{ color: "#32803e" }} size={18} />
+                      <MdAnalytics style={{ color: "#6c757d" }} size={18} />
                       <span className="small">Unknown Programme:</span>
                       <span
                         className="fw-semibold"
-                        style={{ color: "#32803e" }}
+                        style={{ color: "#6c757d" }}
                       >
                         {programmes.unknownPercentage}%
                       </span>
@@ -411,7 +421,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                   </div>
                 )}
 
-                {programmes.programmes.length === 0 ? (
+                {programmes.programmes?.length === 0 ? (
                   <div className="text-center py-5">
                     <FaGraduationCap
                       size={48}
@@ -423,7 +433,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                   </div>
                 ) : (
                   <div className="vstack gap-3">
-                    {programmes.programmes.map((p, i) => {
+                    {programmes.programmes?.map((p, i) => {
                       const performance = getPerformanceBadge(p.passRate);
                       return (
                         <div
@@ -439,7 +449,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                             e.currentTarget.style.transform = "translateX(5px)";
                             e.currentTarget.style.boxShadow =
                               "0 4px 12px rgba(50, 128, 62, 0.1)";
-                            e.currentTarget.style.borderColor = "#78a372";
+                            e.currentTarget.style.borderColor = "#7e796c";
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = "translateX(0)";
@@ -451,12 +461,12 @@ const AnalyticsToggle = ({ selectedExam }) => {
                           <div className="d-flex justify-content-between align-items-start">
                             <div className="flex-grow-1">
                               <div className="d-flex align-items-center gap-2 mb-2">
-                                <h6
+                                <h5
                                   className="fw-semibold mb-0"
                                   style={{ color: "#2c3e2f" }}
                                 >
                                   {p.programme}
-                                </h6>
+                                </h5>
                                 <small
                                   className="px-2 py-1 rounded"
                                   style={{
@@ -470,28 +480,26 @@ const AnalyticsToggle = ({ selectedExam }) => {
                                 </small>
                               </div>
                               <div className="d-flex align-items-center gap-3">
-                                <small className="text-muted d-flex align-items-center gap-1">
-                                  <MdTrendingUp size={12} />
-                                  Pass Rate: {formatScore(p.passRate)}%
-                                </small>
-                                <small className="text-muted d-flex align-items-center gap-1">
+                               
+                                <b className="text-muted d-flex align-items-center gap-1">
                                   <FaUsers size={12} />
                                   {p.count} students
-                                </small>
+                                </b>
                               </div>
                             </div>
                             <div className="text-end ms-3">
                               <div
                                 className="fw-bold fs-4"
-                                style={{ color: "#32803e" }}
+                                style={{ color: "#6c757d" }}
                               >
-                                {p.count}
+                                {p.passRate} <small>%</small>
                               </div>
                               <small className="text-muted">
                                 {p.percentage}% of total
                               </small>
                             </div>
                           </div>
+                         
                         </div>
                       );
                     })}
@@ -504,9 +512,9 @@ const AnalyticsToggle = ({ selectedExam }) => {
       </div>
 
       {/* ============================== */}
-      {/* SCHOOL DETAILS MODAL */}
+      {/* DEPARTMENT DETAILS MODAL */}
       {/* ============================== */}
-      {selectedSchool && (
+      {selectedDepartment && (
         <>
           <div
             className="modal-backdrop fade show"
@@ -514,7 +522,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
               zIndex: 1040,
               backgroundColor: "rgba(0, 0, 0, 0.5)",
             }}
-            onClick={() => setSelectedSchool(null)}
+            onClick={() => setSelectedDepartment(null)}
           />
           <div
             className="modal fade show d-block"
@@ -529,131 +537,72 @@ const AnalyticsToggle = ({ selectedExam }) => {
                 <div
                   className="modal-header"
                   style={{
-                    background:
-                      "linear-gradient(135deg, #78a372 0%, #32803e 100%)",
+                    background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                     color: "white",
                     border: "none",
                   }}
                 >
                   <div className="d-flex align-items-center gap-2">
                     <FaSchool size={20} />
-                    <h5 className="modal-title fw-bold">School Details</h5>
+                    <h5 className="modal-title fw-bold">Department Details</h5>
                   </div>
                   <button
                     type="button"
                     className="btn-close btn-close-white"
-                    onClick={() => setSelectedSchool(null)}
+                    onClick={() => setSelectedDepartment(null)}
                   />
                 </div>
 
                 <div className="modal-body p-4">
                   {loadingDetails ? (
                     <div className="text-center py-4">
-                      <FaSpinner
-                        className="fa-spin mb-3"
-                        size={30}
-                        style={{ color: "#78a372" }}
-                      />
-                      <p className="text-muted mb-0">
-                        Loading school details...
-                      </p>
+                      <FaSpinner className="fa-spin mb-3" size={30} style={{ color: "#7e796c" }} />
+                      <p className="text-muted mb-0">Loading department details...</p>
                     </div>
-                  ) : schoolDetails ? (
+                  ) : departmentDetails ? (
                     <div>
                       <div className="mb-4 pb-3 border-bottom">
-                        <h6
-                          className="fw-bold mb-2"
-                          style={{ color: "#2c3e2f" }}
-                        >
-                          {selectedSchool}
+                        <h6 className="fw-bold mb-2" style={{ color: "#2c3e2f" }}>
+                          {selectedDepartment}
                         </h6>
-                        <div className="d-flex align-items-center gap-2">
-                          <FaMapMarkerAlt
-                            size={14}
-                            style={{ color: "#78a372" }}
-                          />
-                          <span className="text-muted h6">
-                            {schoolDetails.state || "N/A"} State
-                          </span>
-                        </div>
                       </div>
 
                       <div className="row g-3">
                         <div className="col-6">
-                          <div
-                            className="rounded-3 p-3 text-center"
-                            style={{
-                              backgroundColor: "rgba(120, 163, 114, 0.1)",
-                            }}
-                          >
-                            <FaUsers size={20} style={{ color: "#78a372" }} />
-                            <div
-                              className="fw-bold fs-3 mt-2"
-                              style={{ color: "#32803e" }}
-                            >
-                              {schoolDetails.totalCandidates || 0}
+                          <div className="rounded-3 p-3 text-center" style={{ backgroundColor: "rgba(120, 163, 114, 0.1)" }}>
+                            <FaUsers size={20} style={{ color: "#7e796c" }} />
+                            <div className="fw-bold fs-3 mt-2" style={{ color: "#6c757d" }}>
+                              {departmentDetails.totalCandidates || 0}
                             </div>
-                            <small className="text-muted">
-                              Total Candidates
-                            </small>
+                            <small className="text-muted">Total Candidates</small>
                           </div>
                         </div>
+                        
                         <div className="col-6">
-                          <div
-                            className="rounded-3 p-3 text-center"
-                            style={{
-                              backgroundColor: "rgba(120, 163, 114, 0.1)",
-                            }}
-                          >
-                            <FaPercentage
-                              size={20}
-                              style={{ color: "#78a372" }}
-                            />
-                            <div
-                              className="fw-bold fs-3 mt-2"
-                              style={{ color: "#32803e" }}
-                            >
-                              {formatScore(schoolDetails.passRate)}%
+                          <div className="rounded-3 p-3 text-center" style={{ backgroundColor: "rgba(120, 163, 114, 0.1)" }}>
+                            <FaPercentage size={20} style={{ color: "#7e796c" }} />
+                            <div className="fw-bold fs-3 mt-2" style={{ color: "#6c757d" }}>
+                              {formatScore(departmentDetails.passRate)}%
                             </div>
                             <small className="text-muted">Pass Rate</small>
                           </div>
                         </div>
+                        
                         <div className="col-6">
-                          <div
-                            className="rounded-3 p-3 text-center"
-                            style={{
-                              backgroundColor: "rgba(40, 167, 69, 0.1)",
-                            }}
-                          >
-                            <FaCheckCircle
-                              size={20}
-                              style={{ color: "#28a745" }}
-                            />
-                            <div
-                              className="fw-bold fs-3 mt-2"
-                              style={{ color: "#28a745" }}
-                            >
-                              {schoolDetails.passCount || 0}
+                          <div className="rounded-3 p-3 text-center" style={{ backgroundColor: "rgba(40, 167, 69, 0.1)" }}>
+                            <FaCheckCircle size={20} style={{ color: "#28a745" }} />
+                            <div className="fw-bold fs-3 mt-2" style={{ color: "#28a745" }}>
+                              {departmentDetails.passCount || 0}
                             </div>
                             <small className="text-muted">Passed</small>
                           </div>
                         </div>
+                        
                         <div className="col-6">
-                          <div
-                            className="rounded-3 p-3 text-center"
-                            style={{
-                              backgroundColor: "rgba(220, 53, 69, 0.1)",
-                            }}
-                          >
-                            <FaTimesCircle
-                              size={20}
-                              style={{ color: "#dc3545" }}
-                            />
-                            <div
-                              className="fw-bold fs-3 mt-2"
-                              style={{ color: "#dc3545" }}
-                            >
-                              {schoolDetails.failCount || 0}
+                          <div className="rounded-3 p-3 text-center" style={{ backgroundColor: "rgba(220, 53, 69, 0.1)" }}>
+                            <FaTimesCircle size={20} style={{ color: "#dc3545" }} />
+                            <div className="fw-bold fs-3 mt-2" style={{ color: "#dc3545" }}>
+                              {departmentDetails.failCount || 0}
                             </div>
                             <small className="text-muted">Failed</small>
                           </div>
@@ -662,38 +611,45 @@ const AnalyticsToggle = ({ selectedExam }) => {
 
                       <div className="mt-4">
                         <div className="d-flex justify-content-between align-items-center mb-2">
-                          <small className="text-muted">
-                            Performance Overview
-                          </small>
-                          <small
-                            className="fw-semibold"
-                            style={{ color: "#32803e" }}
-                          >
-                            {formatScore(schoolDetails.passRate)}% Pass Rate
+                          <small className="text-muted">Performance Overview</small>
+                          <small className="fw-semibold" style={{ color: "#6c757d" }}>
+                            {formatScore(departmentDetails.passRate)}% Pass Rate
                           </small>
                         </div>
-                        <div
-                          className="progress"
-                          style={{ height: "8px", borderRadius: "4px" }}
-                        >
+                        <div className="progress" style={{ height: "8px", borderRadius: "4px" }}>
                           <div
                             className="progress-bar"
                             role="progressbar"
                             style={{
-                              width: `${schoolDetails.passRate || 0}%`,
-                              background:
-                                "linear-gradient(90deg, #78a372 0%, #32803e 100%)",
+                              width: `${departmentDetails.passRate || 0}%`,
+                              background: "linear-gradient(90deg, #7e796c 0%, #6c757d 100%)",
                               borderRadius: "4px",
                             }}
                           />
                         </div>
                       </div>
+
+                      <div className="mt-3 pt-2">
+                        <div className="row text-center">
+                          <div className="col-4">
+                            <small className="text-muted d-block">Highest</small>
+                            <strong className="text-success">{formatScore(departmentDetails.highestScore)}%</strong>
+                          </div>
+                          <div className="col-4">
+                            <small className="text-muted d-block">Average</small>
+                            <strong>{formatScore(departmentDetails.avgScore)}%</strong>
+                          </div>
+                          <div className="col-4">
+                            <small className="text-muted d-block">Lowest</small>
+                            <strong className="text-danger">{formatScore(departmentDetails.lowestScore)}%</strong>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div className="text-center py-4">
-                      <p className="text-muted mb-0">
-                        No data available for this school
-                      </p>
+                      <FaChartLine size={40} className="text-muted mb-3" />
+                      <p className="text-muted mb-0">No data available for this department</p>
                     </div>
                   )}
                 </div>
@@ -701,17 +657,14 @@ const AnalyticsToggle = ({ selectedExam }) => {
                 <div className="modal-footer border-0">
                   <button
                     className="btn px-4"
-                    onClick={() => setSelectedSchool(null)}
+                    onClick={() => setSelectedDepartment(null)}
                     style={{
-                      background:
-                        "linear-gradient(135deg, #78a372 0%, #32803e 100%)",
+                      background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                       color: "white",
                       border: "none",
                       borderRadius: "0.5rem",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.opacity = "0.9")
-                    }
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.9")}
                     onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                   >
                     Close
@@ -750,7 +703,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                   className="modal-header"
                   style={{
                     background:
-                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                      "linear-gradient(135deg, #6c757d 0%, #7e796c 100%)",
                     color: "white",
                     border: "none",
                   }}
@@ -772,7 +725,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                       <FaSpinner
                         className="fa-spin mb-3"
                         size={30}
-                        style={{ color: "#78a372" }}
+                        style={{ color: "#7e796c" }}
                       />
                       <p className="text-muted mb-0">
                         Loading programme details...
@@ -797,10 +750,10 @@ const AnalyticsToggle = ({ selectedExam }) => {
                               backgroundColor: "rgba(120, 163, 114, 0.1)",
                             }}
                           >
-                            <FaUsers size={20} style={{ color: "#78a372" }} />
+                            <FaUsers size={20} style={{ color: "#7e796c" }} />
                             <div
                               className="fw-bold fs-3 mt-2"
-                              style={{ color: "#32803e" }}
+                              style={{ color: "#6c757d" }}
                             >
                               {programmeDetails.totalCandidates || 0}
                             </div>
@@ -818,11 +771,11 @@ const AnalyticsToggle = ({ selectedExam }) => {
                           >
                             <MdTrendingUp
                               size={20}
-                              style={{ color: "#78a372" }}
+                              style={{ color: "#7e796c" }}
                             />
                             <div
                               className="fw-bold fs-3 mt-2"
-                              style={{ color: "#32803e" }}
+                              style={{ color: "#6c757d" }}
                             >
                               {formatScore(programmeDetails.avgScore)}%
                             </div>
@@ -876,7 +829,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                           <small className="text-muted">Pass Rate</small>
                           <small
                             className="fw-semibold"
-                            style={{ color: "#32803e" }}
+                            style={{ color: "#6c757d" }}
                           >
                             {formatScore(programmeDetails.passRate)}%
                           </small>
@@ -891,7 +844,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                             style={{
                               width: `${programmeDetails.passRate || 0}%`,
                               background:
-                                "linear-gradient(90deg, #32803e 0%, #78a372 100%)",
+                                "linear-gradient(90deg, #6c757d 0%, #7e796c 100%)",
                               borderRadius: "4px",
                             }}
                           />
@@ -913,7 +866,7 @@ const AnalyticsToggle = ({ selectedExam }) => {
                     onClick={() => setSelectedProgramme(null)}
                     style={{
                       background:
-                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                        "linear-gradient(135deg, #6c757d 0%, #7e796c 100%)",
                       color: "white",
                       border: "none",
                       borderRadius: "0.5rem",

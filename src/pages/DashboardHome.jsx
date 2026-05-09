@@ -19,14 +19,16 @@ import {
   FaUserGraduate,
   FaFileAlt,
   FaChartBar,
-  FaHome
+  FaHome,
 } from "react-icons/fa";
 import { MdAnalytics, MdTrendingUp, MdTrendingDown } from "react-icons/md";
 import ScoreDistribution from "../components/ScoreDistribution";
 import AnalyticsToggle from "../components/AnalyticsToggle";
 
 import Loading from "../components/Loading";
-// #78a372 #32803e
+// #7e796c #6c757d
+// #7e796c #6c757d
+
 
 export default function DashboardHome() {
   const { selectedExam } = useAuth();
@@ -153,9 +155,9 @@ export default function DashboardHome() {
       title: "Total Candidates",
       value: totalCandidates.toLocaleString(),
       icon: <FaUsers />,
-      color: "success",
-      bgColor: "bg-success bg-opacity-10",
-      textColor: "text-success",
+      color: "secondary",
+      bgColor: "bg-secondary bg-opacity-10",
+      textColor: "text-secondary",
     },
     {
       title: "Average Score",
@@ -195,6 +197,7 @@ export default function DashboardHome() {
       bgColor: "bg-success bg-opacity-10",
       textColor: "text-success",
     },
+
     {
       title: "Fail Count",
       value: failCount.toLocaleString(),
@@ -212,17 +215,12 @@ export default function DashboardHome() {
       textColor: `text-${getPassRateColor(passCount, totalCandidates)}`,
     },
     {
-      title: "Performance",
-      value:
-        passRate >= 70
-          ? "Excellent"
-          : passRate >= 50
-            ? "Average"
-            : "Needs Improvement",
-      icon: getPassRateIcon(passCount, totalCandidates),
-      color: getPassRateColor(passCount, totalCandidates),
-      bgColor: `bg-${getPassRateColor(passCount, totalCandidates)} bg-opacity-10`,
-      textColor: `text-${getPassRateColor(passCount, totalCandidates)}`,
+      title: "Resit Candidates",
+      value: stats?.resitCandidates?.toLocaleString() || "0",
+      icon: <FaMedal />,
+      color: "warning",
+      bgColor: "bg-warning bg-opacity-10",
+      textColor: "text-warning",
     },
   ];
 
@@ -237,7 +235,7 @@ export default function DashboardHome() {
               style={{
                 width: "48px",
                 height: "48px",
-                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                background: "linear-gradient(135deg, #6c757d 0%, #7e796c 100%)",
                 boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
               }}
             >
@@ -248,14 +246,16 @@ export default function DashboardHome() {
                 className="h2 fw-bold mb-0"
                 style={{
                   background:
-                    "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                    "linear-gradient(135deg, #6c757d 0%, #7e796c 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
               >
                 Dashboard
               </h1>
-              <h5 className="m-0p-0">Nursing and Midwifery Council of Nigeria </h5>
+              <h5 className="m-0p-0">
+                Health Records Organization Registration Board of Nigeria{" "}
+              </h5>
               <p className="text-muted mb-0">{selectedExam.title}</p>
             </div>
           </div>

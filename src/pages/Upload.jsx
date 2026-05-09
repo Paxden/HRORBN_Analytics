@@ -19,7 +19,9 @@ import {
 } from "react-icons/fa";
 import { MdAnalytics, MdVerified } from "react-icons/md";
 import Loading from "../components/Loading";
-// #32803e #78a372
+// #7e796c #6c757d
+// #7e796c #6c757d
+
 
 export default function UploadExam() {
   const { setSelectedExam } = useAuth();
@@ -145,7 +147,7 @@ export default function UploadExam() {
               style={{
                 width: "48px",
                 height: "48px",
-                background: "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                background: "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                 boxShadow: "0 4px 12px rgba(50, 128, 62, 0.3)",
               }}
             >
@@ -156,7 +158,7 @@ export default function UploadExam() {
                 className="h2 fw-bold mb-0"
                 style={{
                   background:
-                    "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                    "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -164,7 +166,7 @@ export default function UploadExam() {
                 Upload
               </h1>
               <h5 className="m-0p-0">
-                Nursing and Midwifery Council of Nigeria{" "}
+                Health Records Organization Registration Board of Nigeria{" "}
               </h5>
               <p className="text-muted mt-2">
                 Upload exam data in CSV format to start analyzing results
@@ -187,7 +189,7 @@ export default function UploadExam() {
                   className="bg-gradient-success rounded-3 p-2"
                   style={{
                     background:
-                      "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                      "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                   }}
                 >
                   <FaCloudUploadAlt className="text-white" size={18} />
@@ -257,7 +259,7 @@ export default function UploadExam() {
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                     style={{
-                      border: `2px dashed ${dragActive ? "#32803e" : "#dee2e6"}`,
+                      border: `2px dashed ${dragActive ? "#7e796c" : "#dee2e6"}`,
                       borderRadius: "1rem",
                       backgroundColor: dragActive
                         ? "rgba(13, 110, 253, 0.05)"
@@ -332,7 +334,7 @@ export default function UploadExam() {
                       borderRadius: "0.75rem",
                       padding: "0.75rem",
                       background:
-                        "linear-gradient(135deg, #32803e 0%, #78a372 100%)",
+                        "linear-gradient(135deg, #7e796c 0%, #6c757d 100%)",
                       border: "none",
                     }}
                   >
@@ -514,13 +516,13 @@ C003,Michael Lee,67,GHI College,Rivers,Centre A`}
         }
         
         .file-upload-area.drag-active {
-          border-color: #32803e !important;
+          border-color: #7e796c !important;
           background-color: rgba(13, 110, 253, 0.05) !important;
         }
         
         .form-control:focus {
           box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-          border-color: #32803e;
+          border-color: #7e796c;
         }
         
         pre {

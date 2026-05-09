@@ -14,10 +14,10 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import { MdAnalytics } from "react-icons/md";
-import Logo from "../assets/nmcn.jpeg";
+import Logo from "../assets/hr.jpeg";
 import { Image } from "react-bootstrap";
 
-// #78a372 #32803e
+// #7e796c #845554
 
 export default function Login() {
   const { login, loading: authLoading } = useAuth(); // Get loading from auth context
@@ -89,8 +89,8 @@ export default function Login() {
                   <h2
                     className="fw-bold mt-3 mb-1"
                     style={{
-                      color: "#32803e",
-                     
+                      color: "#845554",
+                      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
                     }}
                   >
                     NMCN Analytics
@@ -192,7 +192,7 @@ export default function Login() {
                     style={{
                       borderRadius: "0.75rem",
                       background:
-                        "linear-gradient(135deg, #32803e  0%, #78a372 100%)",
+                        "linear-gradient(135deg, #845554  0%, #7e796c 100%)",
                       border: "none",
                       fontWeight: "bold",
                       transition: "transform 0.3s ease",
@@ -221,7 +221,7 @@ export default function Login() {
                 {/* Footer */}
                 <div className="text-center mt-4">
                   <small className="text-muted">
-                    &copy; 2025 NMCN Analytics Platform
+                    &copy; 2025 HRORBN Analytics Platform
                   </small>
                 </div>
               </div>
@@ -302,7 +302,7 @@ export default function Login() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, #b3d8ad 0%, #32803e 100%);
+          background: linear-gradient(135deg, #7e796c 0%, #845554 100%);
           z-index: -2;
         }
 
@@ -357,7 +357,7 @@ export default function Login() {
         .logo-icon {
           width: 70px;
           height: 70px;
-          background: linear-gradient(135deg, #b3d8ad 0%, #32803e 100%);
+          background: linear-gradient(135deg, #b3d8ad 0%, #845554 100%);
           border-radius: 1rem;
           display: flex;
           align-items: center;
